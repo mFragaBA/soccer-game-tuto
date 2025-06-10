@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8ae7oghmjuhs"]
+[gd_scene load_steps=5 format=3 uid="uid://c8ae7oghmjuhs"]
 
 [ext_resource type="Texture2D" uid="uid://c6rx61d4c23vy" path="res://assets/assets/art/backgrounds/pitch-background.png" id="1_m4bko"]
 [ext_resource type="Texture2D" uid="uid://gfy0twxij2wc" path="res://assets/assets/art/backgrounds/pitch-pattern.png" id="2_7qdgk"]
 [ext_resource type="Texture2D" uid="uid://b1mkmbff4wnmd" path="res://assets/assets/art/backgrounds/pitch-lines.png" id="3_6r88c"]
+[ext_resource type="PackedScene" uid="uid://b8mnkwb078l4g" path="res://scenes/Characters/player.tscn" id="4_eut43"]
 
 [node name="World" type="Node2D"]
 
@@ -22,3 +23,6 @@ centered = false
 modulate = Color(0.941176, 0.941176, 0.941176, 1)
 texture = ExtResource("3_6r88c")
 centered = false
+
+[node name="Player" parent="." instance=ExtResource("4_eut43")]
+position = Vector2(183, 143)
