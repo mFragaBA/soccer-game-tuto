@@ -20,4 +20,4 @@ func _process(delta: float) -> void:
 			stopped = true
 	
 	if stopped and (Time.get_ticks_msec() - time_start_tackle_stop) > DELAY_AFTER_FULL_STOP:
-		state_transition_requested.emit(Player.State.RECOVERING)
+		transition_state(Player.State.RECOVERING)

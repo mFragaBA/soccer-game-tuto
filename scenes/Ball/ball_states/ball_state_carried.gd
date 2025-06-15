@@ -21,6 +21,7 @@ func _process(delta: float) -> void:
 			animation_player.play("roll")
 		else:
 			animation_player.play_backwards("roll")
+		animation_player.advance(0)
 				
 		var vx = -cos(timer * dribble_frequency) * dribble_intensity
 		ball.position = carrier.position + Vector2(carrier.heading.x * (vx + offset_from_player.x), offset_from_player.y)
