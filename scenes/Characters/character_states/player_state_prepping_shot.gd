@@ -11,6 +11,10 @@ func _enter_tree() -> void:
 	animation_player.play("prep_kick")
 	player.velocity = Vector2.ZERO
 	
+	# TODO: check if this is wanted. We might want to do sth special
+	# if no directional input is pressed
+	shot_direction = player.heading
+	
 func _process(delta: float) -> void:
 	shot_direction += KeyUtils.get_input_vector(player.control_scheme) * delta
 	

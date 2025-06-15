@@ -34,4 +34,5 @@ func _process(delta: float) -> void:
 	else:
 		animation_player.play("idle")
 		
+	process_gravity(delta)
 	previous_heading = carrier.heading
