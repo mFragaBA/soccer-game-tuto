@@ -17,15 +17,17 @@ var velocity := Vector2.ZERO
 var state_factory := BallStateFactory.new()
 var current_state : BallState = null
 var court_params_factory := CourtParamsFactory.new()
-var current_court_params : CourtParameters = court_params_factory.get_court_params(
-		court_type
-	)
+var current_court_params : CourtParameters
 var carrier : Player = null
 var height := 0.0
 var height_velocity := 0.0
 
 func _ready() -> void:
+	current_court_params = court_params_factory.get_court_params(
+		court_type
+	)
 	switch_state(State.FREEFORM)
+
 	
 func _process(_delta) -> void:
 	ball_sprite.position = Vector2.UP * height

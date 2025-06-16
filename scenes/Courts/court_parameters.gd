@@ -2,6 +2,7 @@ class_name CourtParameters
 
 var friction := 0.25
 var bounciness := 0.4
+var post_bounciness :=  0.6
 var court_color : Color = Color.GREEN
 
 func set_friction(new_friction : float) -> CourtParameters:
@@ -10,4 +11,8 @@ func set_friction(new_friction : float) -> CourtParameters:
 	
 func set_bounciness(new_bounciness : float) -> CourtParameters:
 	bounciness = new_bounciness
+	return self
+
+func set_post_bounciness(new_bounciness : float) -> CourtParameters:
+	post_bounciness = new_bounciness
 	return self

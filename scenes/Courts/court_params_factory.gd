@@ -8,13 +8,13 @@ var court_params : Dictionary
 func _init() -> void:
 	court_params = {
 		CourtType.GRASS: CourtParameters.new()
+			.set_friction(0.5)
+			.set_bounciness(0.7),
+		CourtType.WET_GRASS: CourtParameters.new()
 			.set_friction(0.6)
 			.set_bounciness(0.5),
-		CourtType.WET_GRASS: CourtParameters.new()
-			.set_friction(0.4)
-			.set_bounciness(0.3),
 		CourtType.CONCRETE: CourtParameters.new()
-			.set_friction(0.5)
+			.set_friction(0.4)
 			.set_bounciness(0.75),
 		CourtType.HARD_WOOD: CourtParameters.new()
 			.set_friction(0.3)
