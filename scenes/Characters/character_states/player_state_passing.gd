@@ -8,7 +8,10 @@ func _enter_tree() -> void:
 func on_animation_complete() -> void:
 	var pass_target := find_teammate_in_sight()
 	print(pass_target)
-	
+		
+	if pass_target != null:
+		ball.pass_to(pass_target.position)
+		
 	transition_state(Player.State.MOVING)
 	
 func find_teammate_in_sight() -> Player:
@@ -18,7 +21,7 @@ func find_teammate_in_sight() -> Player:
 	)
 
 	teammates_in_sight.sort_custom(
-		func(p1: Player, p2: Player): p1.position.distance_squared_to(player.position) < p2.position.distance_squared_to(player.position)
+		func(p1: Player, p2: Player): p1.position.distance_squared_to(player.position) > p2.position.distance_squared_to(player.position)
 	)
 	
 	if teammates_in_sight.size() > 0:

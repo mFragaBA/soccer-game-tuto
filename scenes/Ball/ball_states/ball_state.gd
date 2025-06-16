@@ -9,17 +9,19 @@ const HORIZONTAL_DAMPING := 0.95
 signal state_transition_requested(new_state: Ball.State)
 
 var ball : Ball = null
-var player_detection_area = null
-var carrier = null
-var animation_player = null
-var sprite = null
+var player_detection_area : Area2D = null
+var carrier : Player = null
+var animation_player : AnimationPlayer = null
+var sprite : Sprite2D = null
+var court_params : CourtParameters = null
 
-func setup(context_ball: Ball, context_player_detection_area: Area2D, context_carrier: Player, context_animation_player: AnimationPlayer, context_sprite: Sprite2D) -> void:
+func setup(context_ball: Ball, context_player_detection_area: Area2D, context_carrier: Player, context_animation_player: AnimationPlayer, context_sprite: Sprite2D, context_court_params: CourtParameters) -> void:
 	ball = context_ball
 	player_detection_area = context_player_detection_area
 	carrier = context_carrier
 	animation_player = context_animation_player
 	sprite = context_sprite
+	court_params = context_court_params
 
 func set_animation_from_velocity() -> void:
 	if ball.velocity == Vector2.ZERO:
