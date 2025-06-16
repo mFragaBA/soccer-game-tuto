@@ -2,7 +2,7 @@ class_name BallState
 extends Node
 
 const GRAVITY_FORCE := 10
-const MIN_BOUNCE_VELOCITY := 0.1
+const MIN_BOUNCE_VELOCITY := 0.01
 # How much speed the ball loses on each bounce
 const HORIZONTAL_DAMPING := 0.95
 

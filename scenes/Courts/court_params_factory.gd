@@ -17,8 +17,8 @@ func _init() -> void:
 			.set_friction(0.5)
 			.set_bounciness(0.75),
 		CourtType.HARD_WOOD: CourtParameters.new()
-			.set_friction(0.2)
-			.set_bounciness(0.9)
+			.set_friction(0.3)
+			.set_bounciness(0.85)
 	}
 
 func get_court_params(court_type: CourtType) -> CourtParameters:
