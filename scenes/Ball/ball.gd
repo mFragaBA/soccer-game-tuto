@@ -53,3 +53,6 @@ func pass_to(destination: Vector2) -> void:
 	velocity = sqrt(2 * pass_distance * friction_force) * pass_direction
 	carrier = null
 	switch_state(State.FREEFORM)
+
+func stop() -> void:
+	velocity = Vector2.ZERO

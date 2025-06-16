@@ -159,7 +159,7 @@ height = 18.0
 collision_layer = 2
 script = ExtResource("1_52vl3")
 speed = 80.0
-power = 70.0
+power = 150.0
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true

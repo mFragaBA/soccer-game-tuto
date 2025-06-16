@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8ae7oghmjuhs"]
+[gd_scene load_steps=8 format=3 uid="uid://c8ae7oghmjuhs"]
 
 [ext_resource type="Script" path="res://scenes/camera.gd" id="1_2h508"]
 [ext_resource type="Texture2D" uid="uid://c6rx61d4c23vy" path="res://assets/assets/art/backgrounds/pitch-background.png" id="1_m4bko"]
 [ext_resource type="Texture2D" uid="uid://gfy0twxij2wc" path="res://assets/assets/art/backgrounds/pitch-pattern.png" id="2_7qdgk"]
 [ext_resource type="Texture2D" uid="uid://b1mkmbff4wnmd" path="res://assets/assets/art/backgrounds/pitch-lines.png" id="3_6r88c"]
 [ext_resource type="PackedScene" uid="uid://b8mnkwb078l4g" path="res://scenes/Characters/player.tscn" id="4_eut43"]
+[ext_resource type="PackedScene" uid="uid://b82qxopyylsif" path="res://scenes/Goal/goal.tscn" id="5_68ab7"]
 [ext_resource type="PackedScene" uid="uid://lpcbs42dus8n" path="res://scenes/Ball/ball.tscn" id="5_r3h0i"]
 
 [node name="World" type="Node2D"]
@@ -55,3 +56,13 @@ ball = NodePath("../Ball")
 
 [node name="Ball" parent="ActorsContainer" instance=ExtResource("5_r3h0i")]
 position = Vector2(221, 160)
+
+[node name="PitchObjects" type="Node2D" parent="ActorsContainer"]
+y_sort_enabled = true
+
+[node name="GoalHome" parent="ActorsContainer/PitchObjects" instance=ExtResource("5_68ab7")]
+position = Vector2(32, 220)
+
+[node name="GoalAway" parent="ActorsContainer/PitchObjects" instance=ExtResource("5_68ab7")]
+position = Vector2(818, 220)
+scale = Vector2(-1, 1)

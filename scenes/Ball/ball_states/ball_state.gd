@@ -47,3 +47,10 @@ func process_gravity(delta: float, bounciness: float = 0.0) -> void:
 				ball.velocity *= HORIZONTAL_DAMPING
 			else:
 				ball.height_velocity = 0
+
+func move_and_bounce(delta: float) -> void:
+	var collision := ball.move_and_collide(ball.velocity * delta)
+	
+	if collision != null:
+		ball.velocity = ball.velocity.bounce(collision.get_normal()) * court_params.bounciness
+		ball.switch_state(Ball.State.FREEFORM)
