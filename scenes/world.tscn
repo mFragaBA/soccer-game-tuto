@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8ae7oghmjuhs"]
+[gd_scene load_steps=7 format=3 uid="uid://c8ae7oghmjuhs"]
 
+[ext_resource type="Script" path="res://scenes/camera.gd" id="1_2h508"]
 [ext_resource type="Texture2D" uid="uid://c6rx61d4c23vy" path="res://assets/assets/art/backgrounds/pitch-background.png" id="1_m4bko"]
 [ext_resource type="Texture2D" uid="uid://gfy0twxij2wc" path="res://assets/assets/art/backgrounds/pitch-pattern.png" id="2_7qdgk"]
 [ext_resource type="Texture2D" uid="uid://b1mkmbff4wnmd" path="res://assets/assets/art/backgrounds/pitch-lines.png" id="3_6r88c"]
@@ -7,6 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://lpcbs42dus8n" path="res://scenes/Ball/ball.tscn" id="5_r3h0i"]
 
 [node name="World" type="Node2D"]
+
+[node name="Camera" type="Camera2D" parent="." node_paths=PackedStringArray("ball")]
+limit_left = 0
+limit_top = 0
+limit_right = 850
+limit_bottom = 360
+limit_smoothed = true
+position_smoothing_enabled = true
+script = ExtResource("1_2h508")
+ball = NodePath("../ActorsContainer/Ball")
 
 [node name="Background" type="Node2D" parent="."]
 
@@ -30,7 +41,6 @@ y_sort_enabled = true
 
 [node name="Player" parent="ActorsContainer" node_paths=PackedStringArray("ball") instance=ExtResource("4_eut43")]
 position = Vector2(183, 143)
-control_scheme = null
 ball = NodePath("../Ball")
 
 [node name="Player2" parent="ActorsContainer" node_paths=PackedStringArray("ball") instance=ExtResource("4_eut43")]
