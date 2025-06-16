@@ -9,8 +9,10 @@ func on_animation_complete() -> void:
 	var pass_target := find_teammate_in_sight()
 	print(pass_target)
 		
-	if pass_target != null:
-		ball.pass_to(pass_target.position)
+	if pass_target == null:
+		ball.pass_to(player.position + player.heading * player.speed)
+	else:
+		ball.pass_to(pass_target.position + pass_target.velocity)
 		
 	transition_state(Player.State.MOVING)
 	
