@@ -6,12 +6,14 @@ signal state_transition_requested(new_state: Player.State, state_data: PlayerSta
 var animation_player : AnimationPlayer = null
 var player : Player = null
 var ball : Ball = null
+var teammate_detection_area : Area2D = null
 var state_data : PlayerStateData = PlayerStateData.new()
 
-func setup(context_player: Player, context_data: PlayerStateData, context_animation_player: AnimationPlayer, context_ball: Ball) -> void:
+func setup(context_player: Player, context_data: PlayerStateData, context_animation_player: AnimationPlayer, context_ball: Ball, context_teammate_detection_area: Area2D) -> void:
 	player = context_player
 	state_data = context_data
 	animation_player = context_animation_player
+	teammate_detection_area = context_teammate_detection_area
 	ball = context_ball
 	
 func transition_state(new_state: Player.State, data: PlayerStateData = PlayerStateData.new()) -> void:
