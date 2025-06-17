@@ -12,6 +12,12 @@ func _process(delta: float) -> void:
 	set_animation_from_velocity()
 	
 	var friction := Ball.MAX_DRAG * (Ball.FRICTION_AIR if ball.height > 0 else court_params.friction)
+	
+	if ball.velocity != Vector2.ZERO:
+		print(friction)
 	ball.velocity = ball.velocity.move_toward(Vector2.ZERO, friction * delta)
 	process_gravity(delta, court_params.bounciness)
 	move_and_bounce(delta)
+	
+func can_air_interact() -> bool:
+	return true

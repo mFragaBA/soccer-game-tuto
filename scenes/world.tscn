@@ -62,7 +62,6 @@ ball = NodePath("../Ball")
 
 [node name="Ball" parent="ActorsContainer" instance=ExtResource("5_r3h0i")]
 position = Vector2(221, 160)
-court_type = 3
 
 [node name="PitchObjects" type="Node2D" parent="ActorsContainer"]
 y_sort_enabled = true

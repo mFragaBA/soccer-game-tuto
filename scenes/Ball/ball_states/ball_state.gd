@@ -1,7 +1,6 @@
 class_name BallState
 extends Node
 
-const GRAVITY_FORCE := 10.0
 # How much speed the ball loses on each bounce
 const HORIZONTAL_DAMPING := 0.95
 
@@ -34,7 +33,7 @@ func set_animation_from_velocity() -> void:
 
 func process_gravity(delta: float, bounciness: float = 0.0) -> void:
 	if ball.height > 0 or ball.height_velocity > 0:
-		ball.height_velocity -= GRAVITY_FORCE * delta
+		ball.height_velocity -= Ball.GRAVITY_FORCE * delta
 		ball.height += ball.height_velocity
 		
 		# if it touches the ground, bounce by reverting velocity
@@ -54,3 +53,6 @@ func move_and_bounce(delta: float) -> void:
 	if collision != null:
 		ball.switch_state(Ball.State.FREEFORM)
 		ball.velocity = ball.velocity.bounce(collision.get_normal()) * court_params.post_bounciness
+
+func can_air_interact() -> bool:
+	return false
