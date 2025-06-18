@@ -7,8 +7,9 @@ var court_params : Dictionary
 
 func _init() -> void:
 	court_params = {
+		# This one has the same stats as in the video
 		CourtType.SAMPLE: CourtParameters.new()
-			.set_friction(0.25)
+			.set_friction(0.35)
 			.set_bounciness(0.8),
 		CourtType.GRASS: CourtParameters.new()
 			.set_friction(0.5)

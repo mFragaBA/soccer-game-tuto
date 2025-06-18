@@ -8,14 +8,18 @@ var player : Player = null
 var ball : Ball = null
 var teammate_detection_area : Area2D = null
 var ball_detection_area : Area2D = null
+var own_goal : Goal = null
+var target_goal : Goal = null
 var state_data : PlayerStateData = PlayerStateData.new()
 
-func setup(context_player: Player, context_data: PlayerStateData, context_animation_player: AnimationPlayer, context_ball: Ball, context_teammate_detection_area: Area2D, context_ball_detection_area: Area2D) -> void:
+func setup(context_player: Player, context_data: PlayerStateData, context_animation_player: AnimationPlayer, context_ball: Ball, context_teammate_detection_area: Area2D, context_ball_detection_area: Area2D, context_own_goal: Goal, context_target_goal) -> void:
 	player = context_player
 	state_data = context_data
 	animation_player = context_animation_player
 	teammate_detection_area = context_teammate_detection_area
 	ball_detection_area = context_ball_detection_area
+	own_goal = context_own_goal
+	target_goal = context_target_goal
 	ball = context_ball
 	
 func transition_state(new_state: Player.State, data: PlayerStateData = PlayerStateData.new()) -> void:
