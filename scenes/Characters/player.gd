@@ -1,6 +1,7 @@
 class_name Player
 extends CharacterBody2D
 
+const BALL_CONTROL_HEIGHT := 5.0
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.P1: preload("res://assets/assets/art/props/1p.png"),
 	ControlScheme.P2: preload("res://assets/assets/art/props/2p.png"),
@@ -10,7 +11,7 @@ const CONTROL_SCHEME_MAP : Dictionary = {
 const GRAVITY := 8.0
 
 enum ControlScheme {CPU, P1, P2}
-enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK}
+enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL}
 
 @export var control_scheme : ControlScheme
 @export var speed : float
@@ -95,3 +96,7 @@ func set_sprite_visibility() -> void:
 		control_sprite.visible = has_ball()
 	else:
 		control_sprite.visible = true
+
+func control_ball() -> void:
+	if ball.height > BALL_CONTROL_HEIGHT:
+		switch_state(Player.State.CHEST_CONTROL)

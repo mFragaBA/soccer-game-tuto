@@ -14,6 +14,7 @@ func _init() -> void:
 		Player.State.BICYCLE_KICK: PlayerStateBicycleKick,
 		Player.State.VOLLEY_KICK: PlayerStateVolleyKick,
 		Player.State.HEADER: PlayerStateHeader,
+		Player.State.CHEST_CONTROL: PlayerStateChestControl,
 	}
 	
 func get_fresh_state(state: Player.State) -> PlayerState:
