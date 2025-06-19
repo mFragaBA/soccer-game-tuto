@@ -23,7 +23,7 @@ func find_teammate_in_sight() -> Player:
 	)
 
 	teammates_in_sight.sort_custom(
-		func(p1: Player, p2: Player): p1.position.distance_squared_to(player.position) > p2.position.distance_squared_to(player.position)
+		func(p1: Player, p2: Player): return p1.position.distance_squared_to(player.position) > p2.position.distance_squared_to(player.position)
 	)
 	
 	if teammates_in_sight.size() > 0:

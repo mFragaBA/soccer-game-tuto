@@ -348,5 +348,45 @@
 		"role": 3,
 		"speed": 75,
 		"power": 150,
-	}]
-}]
+	}],
+}, {
+	"country": "BOCA",
+	"players": [{
+		"name": "A. MARCHESIN",
+		"skin": 0,
+		"role": 0,
+		"speed": 75,
+		"power": 100,
+	}, {
+		"name": "L. ADVÍNCULA",
+		"skin": 2,
+		"role": 1,
+		"speed": 90,
+		"power": 140,
+	}, {
+		"name": "M. ROJO",
+		"skin": 1,
+		"role": 1,
+		"speed": 70,
+		"power": 130,
+	}, {
+		"name": "K. ZENÓN",
+		"skin": 0,
+		"role": 2,
+		"speed": 65,
+		"power": 120,
+	}, {
+		"name": "E. CAVANI",
+		"skin": 0,
+		"role": 3,
+		"speed": 75,
+		"power": 130,
+	}, {
+		"name": "M. MERENTIEL",
+		"skin": 2,
+		"role": 3,
+		"speed": 65,
+		"power": 150,
+	}],
+}
+]

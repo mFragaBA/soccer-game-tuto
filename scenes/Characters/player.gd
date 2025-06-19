@@ -12,6 +12,8 @@ const GRAVITY := 8.0
 
 enum ControlScheme {CPU, P1, P2}
 enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL}
+enum Role {GOALIE, DEFENSE, MIDFIELD, OFFENSE}
+enum SkinColor {LIGHT, MEDIUM, DARK}
 
 @export var control_scheme : ControlScheme
 @export var speed : float
@@ -30,7 +32,22 @@ var current_state : PlayerState = null
 var heading : Vector2 = Vector2.RIGHT
 var height : float = 0.0
 var height_velocity : float = 0.0
+var fullname : String = ""
+var role : Role = Role.MIDFIELD
+var skin_color: SkinColor = SkinColor.MEDIUM
 var state_factory := PlayerStateFactory.new()
+
+func initialize(context_position: Vector2, context_ball: Ball, context_own_goal: Goal, context_target_goal: Goal, context_player_data: PlayerResource) -> void:
+	position = context_position
+	ball = context_ball
+	own_goal = context_own_goal
+	target_goal = context_target_goal
+	fullname = context_player_data.full_name
+	role = context_player_data.role
+	skin_color = context_player_data.skin_color
+	speed = context_player_data.speed
+	power = context_player_data.power
+	heading = Vector2.LEFT if target_goal.position.x < position.x else Vector2.RIGHT
 
 func _ready() -> void:
 	switch_state(State.MOVING)
