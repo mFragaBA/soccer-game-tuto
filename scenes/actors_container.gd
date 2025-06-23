@@ -28,10 +28,10 @@ func spawn_players(country: String, is_home: bool) -> void:
 	
 	for i in players.size():
 		var player_position := spawns.get_child(i).global_position as Vector2
-		spawn_player(player_position, own_goal, target_goal, players[i])
+		spawn_player(player_position, own_goal, target_goal, players[i], country)
 	
-func spawn_player(player_position: Vector2, own_goal: Goal, target_goal: Goal, player_data: PlayerResource) -> void:
+func spawn_player(player_position: Vector2, own_goal: Goal, target_goal: Goal, player_data: PlayerResource, player_country: String) -> void:
 	var player := PLAYER_PREFAB.instantiate()
-	player.initialize(player_position, ball, own_goal, target_goal, player_data)
+	player.initialize(player_position, ball, own_goal, target_goal, player_data, player_country)
 	add_child(player)
 	
