@@ -30,6 +30,7 @@ enum SkinColor {LIGHT, MEDIUM, DARK}
 @onready var teammate_detection_area : Area2D = %TeammateDetectionArea
 @onready var ball_detection_area : Area2D = %BallDetectionArea
 
+var ai_behavior : AIBehavior = AIBehavior.new()
 var current_state : PlayerState = null
 var heading : Vector2 = Vector2.RIGHT
 var height : float = 0.0
@@ -38,7 +39,9 @@ var fullname : String = ""
 var role : Role = Role.MIDFIELD
 var skin_color: SkinColor = SkinColor.MEDIUM
 var country: String = ""
+var spawn_position := Vector2.ZERO
 var state_factory := PlayerStateFactory.new()
+var weight_on_duty_steering := 0.0
 
 func initialize(context_position: Vector2, context_ball: Ball, context_own_goal: Goal, context_target_goal: Goal, context_player_data: PlayerResource, context_player_country: String) -> void:
 	position = context_position
@@ -57,6 +60,8 @@ func _ready() -> void:
 	switch_state(State.MOVING)
 	set_control_texture()
 	set_shader_properties()
+	setup_ai()
+	spawn_position = position
 	
 func _process(delta: float) -> void:
 	flip_sprite()
@@ -75,12 +80,17 @@ func switch_state(state: State, player_state_data: PlayerStateData = PlayerState
 		current_state.queue_free()
 	
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, player_state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal)
+	current_state.setup(self, player_state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, ai_behavior)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
 
 	# doesn't interfere with removing the pre-existing state
 	call_deferred("add_child", current_state)	
+	
+func setup_ai() -> void:
+	ai_behavior.setup(self, ball)
+	ai_behavior.name = "AI Behavior"
+	add_child(ai_behavior)
 	
 func set_movement_animation() -> void:
 	if velocity.length() > 0:
