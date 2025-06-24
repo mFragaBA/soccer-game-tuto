@@ -7,7 +7,6 @@ func _enter_tree() -> void:
 	
 func on_animation_complete() -> void:
 	var pass_target := find_teammate_in_sight()
-	print(pass_target)
 		
 	if pass_target == null:
 		ball.pass_to(player.position + player.heading * player.speed)

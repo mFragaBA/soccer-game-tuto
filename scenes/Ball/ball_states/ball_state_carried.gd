@@ -13,7 +13,6 @@ func _enter_tree() -> void:
 	
 func _process(delta: float) -> void:
 	if previous_heading.x != carrier.heading.x:
-		print("resetting timer")
 		timer = 0
 	
 	if carrier.velocity != Vector2.ZERO:

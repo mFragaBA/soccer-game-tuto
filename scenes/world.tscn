@@ -49,8 +49,8 @@ script = ExtResource("5_myi4k")
 ball = NodePath("Ball")
 goal_home = NodePath("PitchObjects/GoalHome")
 goal_away = NodePath("PitchObjects/GoalAway")
-team_home = "FRANCE"
-team_away = "BOCA"
+team_home = "BOCA"
+team_away = "RACING"
 
 [node name="Ball" parent="ActorsContainer" instance=ExtResource("5_r3h0i")]
 position = Vector2(425, 185)

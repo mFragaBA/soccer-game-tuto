@@ -8,7 +8,7 @@ const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU: preload("res://assets/assets/art/props/cpu.png"),
 }
 
-const COUNTRIES := ["DEFAULT", "FRANCE", "ARGENTINA", "BRAZIL", "ENGLAND", "GERMANY", "ITALY", "SPAIN", "USA"]
+const COUNTRIES := ["DEFAULT", "FRANCE", "ARGENTINA", "BRAZIL", "ENGLAND", "GERMANY", "ITALY", "SPAIN", "USA", "BOCA", "INDEPENDIENTE", "RIVER", "RACING", "SAN LORENZO"]
 
 const GRAVITY := 8.0
 

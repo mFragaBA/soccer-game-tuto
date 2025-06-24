@@ -3,17 +3,17 @@
 [ext_resource type="Script" path="res://scenes/Characters/player.gd" id="1_52vl3"]
 [ext_resource type="Texture2D" uid="uid://d3mss88mrtxwf" path="res://assets/assets/art/characters/soccer-player.png" id="1_lmsv4"]
 [ext_resource type="Shader" path="res://shaders/replace_color.gdshader" id="2_hjtge"]
-[ext_resource type="Texture2D" uid="uid://bty3actny3ohs" path="res://assets/assets/art/palettes/teams-color-palette.png" id="3_3psow"]
 [ext_resource type="Texture2D" uid="uid://d2n8cykx83vaj" path="res://assets/assets/art/props/1p.png" id="3_k6hac"]
 [ext_resource type="Texture2D" uid="uid://bb1wuhjx5aklv" path="res://assets/assets/art/palettes/skin-colors-palette.png" id="3_ohcws"]
 [ext_resource type="Texture2D" uid="uid://bjb5x02h0fybe" path="res://assets/assets/art/characters/player-shadow.png" id="3_v384r"]
+[ext_resource type="Texture2D" uid="uid://c5r3esy1r3p36" path="res://assets/assets/art/palettes/teams-color-palette-own.png" id="4_n8vxg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q0sp7"]
 resource_local_to_scene = true
 shader = ExtResource("2_hjtge")
-shader_parameter/team_index = 2
+shader_parameter/team_index = 13
 shader_parameter/skin_index = 2
-shader_parameter/team_palette = ExtResource("3_3psow")
+shader_parameter/team_palette = ExtResource("4_n8vxg")
 shader_parameter/skin_palette = ExtResource("3_ohcws")
 
 [sub_resource type="Animation" id="Animation_vmqjv"]
@@ -29,6 +29,71 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_orr15"]
+resource_name = "bicycle_kick"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [36, 37, 38, 39]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"on_animation_complete"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_av6t2"]
+resource_name = "chest_control"
+length = 0.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [42]
+}
+
+[sub_resource type="Animation" id="Animation_16p3q"]
+resource_name = "header"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [24, 25]
 }
 
 [sub_resource type="Animation" id="Animation_efkae"]
@@ -151,37 +216,6 @@ tracks/0/keys = {
 "values": [30]
 }
 
-[sub_resource type="Animation" id="Animation_orr15"]
-resource_name = "bicycle_kick"
-length = 0.4
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [36, 37, 38, 39]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"on_animation_complete"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_lk40t"]
 resource_name = "volley_kick"
 length = 0.3
@@ -211,40 +245,6 @@ tracks/1/keys = {
 "args": [],
 "method": &"on_animation_complete"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_16p3q"]
-resource_name = "header"
-length = 0.2
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [24, 25]
-}
-
-[sub_resource type="Animation" id="Animation_av6t2"]
-resource_name = "chest_control"
-length = 0.1
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [42]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_laink"]
@@ -280,6 +280,7 @@ power = 150.0
 unique_name_in_owner = true
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_q0sp7")
+position = Vector2(-21, -11)
 texture = ExtResource("1_lmsv4")
 centered = false
 offset = Vector2(-16, -32)
