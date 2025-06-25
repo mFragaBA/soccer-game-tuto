@@ -2,6 +2,8 @@ class_name AIBehavior
 extends Node
 
 const AI_TICK_FREQUENCY := 200
+const SHOT_DISTANCE := 150
+const SHOT_PROBABILITY := 0.3
 const SPREAD_FACTOR := 0.8
 
 var player : Player = null
@@ -37,7 +39,20 @@ func perform_ai_movement() -> void:
 	player.velocity = total_steering_force * player.speed
 	
 func perform_ai_decisions() -> void:
-	pass
+	if ball.carrier == player:
+		var target = player.target_goal.get_center_target_position()
+		var distance_to_target := player.position.distance_to(target)
+		if distance_to_target < SHOT_DISTANCE and randf() < SHOT_PROBABILITY:
+			# Force player to face target
+			face_towards_target_goal()
+			
+			# Shoot ball
+			var data := PlayerStateData.new()
+			var shot_direction := player.position.direction_to(player.target_goal.get_random_target_position())
+			data.shot_power = player.power
+			data.shot_direction = shot_direction
+			player.switch_state(Player.State.SHOOTING, data)
+
 	
 func get_on_duty_steering_force() -> Vector2:
 	return player.weight_on_duty_steering * player.position.direction_to(ball.position)
@@ -70,3 +85,7 @@ func get_bicircular_weight(position: Vector2, target_position: Vector2, inner_ci
 
 func is_ball_carried_by_teammate() -> bool:
 	return ball.carrier != null and ball.carrier != self and ball.carrier.country == player.country
+
+func face_towards_target_goal() -> void:
+	if not player.is_facing_target_goal():
+		player.heading *= -1

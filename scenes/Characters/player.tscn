@@ -292,6 +292,7 @@ height = 20.0
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_52vl3")
+control_scheme = null
 speed = 80.0
 power = 150.0
 

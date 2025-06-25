@@ -134,6 +134,12 @@ func on_animation_complete() -> void:
 func set_control_texture() -> void:
 	control_sprite.texture = CONTROL_SCHEME_MAP[control_scheme]
 	
+func is_facing_target_goal() -> bool:
+	var direction_to_target_goal := position.direction_to(target_goal.position)
+	
+	# Cos > 0 deg means the angle is between -90 and 90
+	return heading.dot(direction_to_target_goal) > 0
+	
 func set_sprite_visibility() -> void:
 	if control_scheme == ControlScheme.CPU:
 		control_sprite.visible = has_ball()
