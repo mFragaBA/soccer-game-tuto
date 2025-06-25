@@ -18,7 +18,7 @@ func on_animation_complete() -> void:
 func find_teammate_in_sight() -> Player:
 	var players_in_sight := teammate_detection_area.get_overlapping_bodies()
 	var teammates_in_sight := players_in_sight.filter(
-		func(p: Player): return p != player
+		func(p: Player): return p != player and p.country == player.country
 	)
 
 	teammates_in_sight.sort_custom(
