@@ -5,6 +5,8 @@ const AI_TICK_FREQUENCY := 200
 const SHOT_DISTANCE := 150
 const SHOT_PROBABILITY := 0.3
 const SPREAD_FACTOR := 0.8
+const TACKLE_DISTANCE := 15
+const TACKLE_PROBABILITY := 0.3
 
 var player : Player = null
 var ball : Ball = null
@@ -19,6 +21,8 @@ func setup(context_player: Player, context_ball: Ball) -> void:
 	ball = context_ball
 	
 func process_ai() -> void:
+	if is_ball_possessed_by_opponent() and player.position.distance_to(ball.position) < TACKLE_DISTANCE and randf() < TACKLE_PROBABILITY:
+		player.switch_state(Player.State.TACKLING)
 	if (Time.get_ticks_msec() - time_since_last_ai_tick) > AI_TICK_FREQUENCY:
 		time_since_last_ai_tick = Time.get_ticks_msec()
 		perform_ai_movement()
@@ -83,6 +87,9 @@ func get_bicircular_weight(position: Vector2, target_position: Vector2, inner_ci
 
 func is_ball_carried_by_teammate() -> bool:
 	return ball.carrier != null and ball.carrier != self and ball.carrier.country == player.country
+
+func is_ball_possessed_by_opponent() -> bool:
+	return ball.carrier != null and ball.carrier.country != player.country
 
 func face_towards_target_goal() -> void:
 	if not player.is_facing_target_goal():
