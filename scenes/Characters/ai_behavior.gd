@@ -7,22 +7,23 @@ const SHOT_PROBABILITY := 0.3
 const SPREAD_FACTOR := 0.8
 const TACKLE_DISTANCE := 15
 const TACKLE_PROBABILITY := 0.3
+const PASS_PROBABILITY := 0.1
 
 var player : Player = null
 var ball : Ball = null
+var opponent_detection_area : Area2D = null
 var time_since_last_ai_tick := Time.get_ticks_msec()
 
 func ready() -> void:
 	# add random value so AIs tick at different times
 	time_since_last_ai_tick = Time.get_ticks_msec() + randi_range(0, AI_TICK_FREQUENCY)
 
-func setup(context_player: Player, context_ball: Ball) -> void:
+func setup(context_player: Player, context_ball: Ball, context_opponent_detection_area: Area2D) -> void:
 	player = context_player
 	ball = context_ball
+	opponent_detection_area = context_opponent_detection_area
 	
 func process_ai() -> void:
-	if is_ball_possessed_by_opponent() and player.position.distance_to(ball.position) < TACKLE_DISTANCE and randf() < TACKLE_PROBABILITY:
-		player.switch_state(Player.State.TACKLING)
 	if (Time.get_ticks_msec() - time_since_last_ai_tick) > AI_TICK_FREQUENCY:
 		time_since_last_ai_tick = Time.get_ticks_msec()
 		perform_ai_movement()
@@ -41,6 +42,8 @@ func perform_ai_movement() -> void:
 	player.velocity = total_steering_force * player.speed
 	
 func perform_ai_decisions() -> void:
+	if is_ball_possessed_by_opponent() and player.position.distance_to(ball.position) < TACKLE_DISTANCE and randf() < TACKLE_PROBABILITY:
+		player.switch_state(Player.State.TACKLING)
 	if ball.carrier == player:
 		var target = player.target_goal.get_center_target_position()
 		var distance_to_target := player.position.distance_to(target)
@@ -54,8 +57,9 @@ func perform_ai_decisions() -> void:
 			data.shot_power = player.power
 			data.shot_direction = shot_direction
 			player.switch_state(Player.State.SHOOTING, data)
+		elif has_opponents_nearby() and randf() < PASS_PROBABILITY:
+			player.switch_state(Player.State.PASSING)
 
-	
 func get_on_duty_steering_force() -> Vector2:
 	return player.weight_on_duty_steering * player.position.direction_to(ball.position)
 
@@ -90,6 +94,10 @@ func is_ball_carried_by_teammate() -> bool:
 
 func is_ball_possessed_by_opponent() -> bool:
 	return ball.carrier != null and ball.carrier.country != player.country
+
+func has_opponents_nearby() -> bool:
+	var players := opponent_detection_area.get_overlapping_bodies()
+	return players.filter(func(p: Player): return p.country != player.country).size() > 0
 
 func face_towards_target_goal() -> void:
 	if not player.is_facing_target_goal():

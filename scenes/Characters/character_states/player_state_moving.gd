@@ -7,15 +7,15 @@ func _process(_delta: float) -> void:
 	else:
 		handle_human_movement()
 		
+	if player.velocity != Vector2.ZERO:
+		teammate_detection_area.rotation = player.velocity.angle()
+		
 	player.set_movement_animation()
 	player.set_heading()
 
 func handle_human_movement() -> void:
 	var direction := KeyUtils.get_input_vector(player.control_scheme)
 	player.velocity = direction * player.speed
-	
-	if player.velocity != Vector2.ZERO:
-		teammate_detection_area.rotation = player.velocity.angle()
 
 	if not player.has_ball() and player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 			transition_state(Player.State.TACKLING) 
