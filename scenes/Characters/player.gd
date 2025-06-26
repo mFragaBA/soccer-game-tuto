@@ -14,7 +14,7 @@ const GRAVITY := 8.0
 const WALK_ANIM_THRESHOLD := 0.6
 
 enum ControlScheme {CPU, P1, P2}
-enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL}
+enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT}
 enum Role {GOALIE, DEFENSE, MIDFIELD, OFFENSE}
 enum SkinColor {LIGHT, MEDIUM, DARK}
 
@@ -30,6 +30,7 @@ enum SkinColor {LIGHT, MEDIUM, DARK}
 @onready var player_sprite : Sprite2D = %PlayerSprite
 @onready var teammate_detection_area : Area2D = %TeammateDetectionArea
 @onready var ball_detection_area : Area2D = %BallDetectionArea
+@onready var tackle_damage_emitter_area : Area2D = %TackleDamageEmitterArea
 
 var ai_behavior : AIBehavior = AIBehavior.new()
 var current_state : PlayerState = null
@@ -63,6 +64,7 @@ func _ready() -> void:
 	set_shader_properties()
 	setup_ai()
 	spawn_position = position
+	tackle_damage_emitter_area.body_entered.connect(on_tackle_player.bind())
 	
 func _process(delta: float) -> void:
 	flip_sprite()
@@ -81,7 +83,7 @@ func switch_state(state: State, player_state_data: PlayerStateData = PlayerState
 		current_state.queue_free()
 	
 	current_state = state_factory.get_fresh_state(state)
-	current_state.setup(self, player_state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, ai_behavior)
+	current_state.setup(self, player_state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, tackle_damage_emitter_area, ai_behavior)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
 
@@ -102,7 +104,6 @@ func set_movement_animation() -> void:
 	else:
 		animation_player.play("run")
 
-
 func process_gravity(delta: float) -> void:
 	if height > 0:
 		height_velocity -= GRAVITY * delta
@@ -121,15 +122,26 @@ func set_heading() -> void:
 func flip_sprite() -> void:
 	if heading == Vector2.RIGHT:
 		player_sprite.flip_h = false
+		tackle_damage_emitter_area.scale.x = 1
 	elif heading == Vector2.LEFT:
 		player_sprite.flip_h = true
+		tackle_damage_emitter_area.scale.x = -1	
 		
+func get_hurt(tackle_origin: Vector2) -> void:
+	var state_data := PlayerStateData.new()
+	state_data.hurt_direction = tackle_origin
+	switch_state(Player.State.HURT, state_data)
+			
 func has_ball() -> bool:
 	return ball.carrier == self
 
 func on_animation_complete() -> void:
 	if current_state != null:
 		current_state.on_animation_complete()
+	
+func on_tackle_player(player: Player) -> void:
+	if player != self and player.country != country and ball.carrier == player:
+		player.get_hurt(position.direction_to(player.position))
 
 func set_control_texture() -> void:
 	control_sprite.texture = CONTROL_SCHEME_MAP[control_scheme]

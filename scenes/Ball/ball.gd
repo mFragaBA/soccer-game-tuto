@@ -14,6 +14,7 @@ const FRICTION_AIR := 0.05
 const MAX_DRAG := 1000.0
 const GRAVITY_FORCE := 10.0
 const DISTANCE_HIGH_PASS := 130
+const TUMBLE_HEIGHT_VELOCITY := 3.0
 
 var velocity := Vector2.ZERO
 var state_factory := BallStateFactory.new()
@@ -49,6 +50,12 @@ func shoot(shot_velocity: Vector2) -> void:
 	height_velocity = 0
 	carrier = null
 	switch_state(State.SHOT)
+	
+func tumble(tumble_velocity: Vector2) -> void:
+	velocity = tumble_velocity
+	carrier = null
+	height_velocity = TUMBLE_HEIGHT_VELOCITY
+	switch_state(State.FREEFORM)
 	
 func pass_to(destination: Vector2) -> void:
 	var pass_direction = position.direction_to(destination)

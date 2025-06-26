@@ -8,6 +8,7 @@ var stopped = false
 var time_start_tackle_stop = Time.get_ticks_msec()
 
 func _enter_tree() -> void:
+	tackle_damage_emitter_area.monitoring = true
 	animation_player.play("tackle")
 
 func _process(delta: float) -> void:
@@ -21,3 +22,6 @@ func _process(delta: float) -> void:
 	
 	if stopped and (Time.get_ticks_msec() - time_start_tackle_stop) > DELAY_AFTER_FULL_STOP:
 		transition_state(Player.State.RECOVERING)
+		
+func _exit_tree() -> void:
+	tackle_damage_emitter_area.monitoring = false

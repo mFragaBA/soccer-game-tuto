@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://b8mnkwb078l4g"]
+[gd_scene load_steps=26 format=3 uid="uid://b8mnkwb078l4g"]
 
 [ext_resource type="Script" path="res://scenes/Characters/player.gd" id="1_52vl3"]
 [ext_resource type="Texture2D" uid="uid://d3mss88mrtxwf" path="res://assets/assets/art/characters/soccer-player.png" id="1_lmsv4"]
@@ -265,12 +265,30 @@ tracks/0/keys = {
 "values": [12, 13, 14, 15, 16, 17]
 }
 
+[sub_resource type="Animation" id="Animation_7lwe7"]
+resource_name = "hurt"
+length = 0.2
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [54, 55]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_laink"]
 _data = {
 "RESET": SubResource("Animation_vmqjv"),
 "bicycle_kick": SubResource("Animation_orr15"),
 "chest_control": SubResource("Animation_av6t2"),
 "header": SubResource("Animation_16p3q"),
+"hurt": SubResource("Animation_7lwe7"),
 "idle": SubResource("Animation_efkae"),
 "kick": SubResource("Animation_j3v2k"),
 "prep_kick": SubResource("Animation_4apn3"),
@@ -289,10 +307,12 @@ height = 18.0
 radius = 6.0
 height = 20.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_coaiv"]
+size = Vector2(7, 7)
+
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_52vl3")
-control_scheme = null
 speed = 80.0
 power = 150.0
 
@@ -300,7 +320,6 @@ power = 150.0
 unique_name_in_owner = true
 y_sort_enabled = true
 material = SubResource("ShaderMaterial_q0sp7")
-position = Vector2(-21, -11)
 texture = ExtResource("1_lmsv4")
 centered = false
 offset = Vector2(-16, -32)
@@ -337,18 +356,30 @@ visible = false
 polygon = PackedVector2Array(0, -40, 280, -150, 330, -100, 330, 100, 280, 150, 0, 40)
 
 [node name="ShadowSprite" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("3_v384r")
 centered = false
 offset = Vector2(-8, -15)
 
 [node name="BallDetectionArea" type="Area2D" parent="."]
 unique_name_in_owner = true
-visible = false
 collision_layer = 0
 collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BallDetectionArea"]
+visible = false
 position = Vector2(0, -8)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_tqbpg")
+
+[node name="TackleDamageEmitterArea" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TackleDamageEmitterArea"]
+position = Vector2(13, -3)
+shape = SubResource("RectangleShape2D_coaiv")

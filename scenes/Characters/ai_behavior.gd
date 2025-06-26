@@ -33,9 +33,7 @@ func perform_ai_movement() -> void:
 		if is_ball_carried_by_teammate():
 			total_steering_force += get_assist_formation_steering()
 	total_steering_force = total_steering_force.limit_length(1.0)
-	
-	print("total steering force: " + str(total_steering_force))
-	
+		
 	player.velocity = total_steering_force * player.speed
 	
 func perform_ai_decisions() -> void:
