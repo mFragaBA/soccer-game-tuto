@@ -16,9 +16,6 @@ func _process(_delta: float) -> void:
 func handle_human_movement() -> void:
 	var direction := KeyUtils.get_input_vector(player.control_scheme)
 	player.velocity = direction * player.speed
-
-	if not player.has_ball() and player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-			transition_state(Player.State.TACKLING) 
 	
 	if player.has_ball():
 		if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
@@ -26,11 +23,17 @@ func handle_human_movement() -> void:
 		
 		if KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.PASS):
 			transition_state(Player.State.PASSING)
-	elif ball.can_air_interact() and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		if player.velocity == Vector2.ZERO:
-			if player.is_facing_target_goal():
-				transition_state(Player.State.VOLLEY_KICK)
+	elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
+		if ball.can_air_interact():
+			if player.velocity == Vector2.ZERO:
+				if player.is_facing_target_goal():
+					transition_state(Player.State.VOLLEY_KICK)
+				else:
+					transition_state(Player.State.BICYCLE_KICK)
 			else:
-				transition_state(Player.State.BICYCLE_KICK)
+				transition_state(Player.State.HEADER)
 		else:
-			transition_state(Player.State.HEADER)
+			transition_state(Player.State.TACKLING)
+
+func can_carry_ball() -> bool:
+	return player.role != Player.Role.GOALIE
