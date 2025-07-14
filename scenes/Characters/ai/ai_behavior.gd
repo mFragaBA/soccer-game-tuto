@@ -6,16 +6,18 @@ const AI_TICK_FREQUENCY := 200
 var player : Player = null
 var ball : Ball = null
 var opponent_detection_area : Area2D = null
+var teammate_detection_area : Area2D = null
 var time_since_last_ai_tick := Time.get_ticks_msec()
 
 func ready() -> void:
 	# add random value so AIs tick at different times
 	time_since_last_ai_tick = Time.get_ticks_msec() + randi_range(0, AI_TICK_FREQUENCY)
 
-func setup(context_player: Player, context_ball: Ball, context_opponent_detection_area: Area2D) -> void:
+func setup(context_player: Player, context_ball: Ball, context_opponent_detection_area: Area2D, context_teammate_detection_area: Area2D) -> void:
 	player = context_player
 	ball = context_ball
 	opponent_detection_area = context_opponent_detection_area
+	teammate_detection_area = context_teammate_detection_area
 	
 func process_ai() -> void:
 	if (Time.get_ticks_msec() - time_since_last_ai_tick) > AI_TICK_FREQUENCY:
@@ -29,6 +31,10 @@ func perform_ai_movement():
 func perform_ai_decisions():
 	pass
 
+## returns a weight based on the distance towards the target position. 
+## If we're in the inner circle we use the inner_circle_weight as it comes.
+## If we're outside of the *outer* circle, we use the outer_circle_weight as it comes.
+## Otherwise we interpolate based on the distance to both circles
 func get_bicircular_weight(position: Vector2, target_position: Vector2, inner_circle_radius: float, inner_circle_weight: float, outer_circle_radius: float, outer_circle_weight: float) -> float:
 	var distance_to_center = position.distance_to(target_position)
 	

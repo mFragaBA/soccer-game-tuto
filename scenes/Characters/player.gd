@@ -99,7 +99,7 @@ func switch_state(state: State, player_state_data: PlayerStateData = PlayerState
 	
 func setup_ai() -> void:
 	current_ai_behavior = ai_behavior_factory.get_ai_behavior(role)
-	current_ai_behavior.setup(self, ball, opponent_detection_area)
+	current_ai_behavior.setup(self, ball, opponent_detection_area, teammate_detection_area)
 	current_ai_behavior.name = "AI Behavior"
 	add_child(current_ai_behavior)
 	
