@@ -4,7 +4,7 @@ extends Node
 # How much speed the ball loses on each bounce
 const HORIZONTAL_DAMPING := 0.95
 
-signal state_transition_requested(new_state: Ball.State)
+signal state_transition_requested(new_state: Ball.State, state_data: BallStateData)
 
 var ball : Ball = null
 var player_detection_area : Area2D = null
@@ -12,14 +12,19 @@ var carrier : Player = null
 var animation_player : AnimationPlayer = null
 var sprite : Sprite2D = null
 var court_params : CourtParameters = null
+var state_data : BallStateData = null
 
-func setup(context_ball: Ball, context_player_detection_area: Area2D, context_carrier: Player, context_animation_player: AnimationPlayer, context_sprite: Sprite2D, context_court_params: CourtParameters) -> void:
+func setup(context_ball: Ball, context_player_detection_area: Area2D, context_carrier: Player, context_animation_player: AnimationPlayer, context_sprite: Sprite2D, context_court_params: CourtParameters, context_data: BallStateData) -> void:
 	ball = context_ball
 	player_detection_area = context_player_detection_area
 	carrier = context_carrier
 	animation_player = context_animation_player
 	sprite = context_sprite
 	court_params = context_court_params
+	state_data = context_data
+	
+func transition_state(new_state: Ball.State, data: BallStateData = BallStateData.new()) -> void:
+	state_transition_requested.emit(new_state, data)
 
 func set_animation_from_velocity() -> void:
 	if ball.velocity == Vector2.ZERO:
