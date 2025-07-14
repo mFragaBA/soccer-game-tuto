@@ -153,6 +153,12 @@ func on_tackle_player(player: Player) -> void:
 	if player != self and player.country != country and ball.carrier == player:
 		player.get_hurt(position.direction_to(player.position))
 
+func request_pass(player: Player) -> void:
+	if ball.carrier == self and current_state != null and current_state.can_pass_ball():
+		var state_data := PlayerStateData.new()
+		state_data.pass_target = player
+		switch_state(Player.State.PASSING, state_data)
+
 func set_control_texture() -> void:
 	control_sprite.texture = CONTROL_SCHEME_MAP[control_scheme]
 	

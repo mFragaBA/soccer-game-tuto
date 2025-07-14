@@ -35,3 +35,6 @@ func calculate_shot_bonus() -> float:
 	var time_bonus := clampf(Time.get_ticks_msec() - time_start_shot, 0, DURATION_MAX_BONUS)
 	var ease_time := time_bonus / DURATION_MAX_BONUS
 	return ease(ease_time, EASE_REWARD_FACTOR)
+
+func can_pass_ball() -> bool:
+	return true

@@ -13,3 +13,6 @@ func _enter_tree() -> void:
 func _process(_delta: float) -> void:
 	if (Time.get_ticks_msec() - time_entered_state) > CONTROL_DURATION:
 		transition_state(Player.State.MOVING)		
+
+func can_pass_ball() -> bool:
+	return true
