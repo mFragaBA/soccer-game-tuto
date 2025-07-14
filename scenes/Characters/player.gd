@@ -1,6 +1,8 @@
 class_name Player
 extends CharacterBody2D
 
+signal swap_requested(requesting_player: Player)
+
 const BALL_CONTROL_HEIGHT := 5.0
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.P1: preload("res://assets/assets/art/props/1p.png"),
