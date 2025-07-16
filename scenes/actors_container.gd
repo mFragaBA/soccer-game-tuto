@@ -8,9 +8,6 @@ const PLAYER_PREFAB := preload("res://scenes/Characters/player.tscn")
 @export var goal_home : Goal
 @export var goal_away : Goal
 
-@export var team_home : String
-@export var team_away : String
-
 @onready var spawns : Node2D = %Spawns
 
 var squad_home : Array[Player] = []
@@ -18,16 +15,18 @@ var squad_away : Array[Player] = []
 var time_since_last_cache_refresh := Time.get_ticks_msec()
 
 func _ready() -> void:
-	squad_home = spawn_players(team_home, true)
+	var home_country := GameManager.get_home_country()
+	var away_country := GameManager.get_away_country()
+	squad_home = spawn_players(home_country, true)
 	spawns.scale.x *= -1
-	squad_away = spawn_players(team_away, false)
+	squad_away = spawn_players(away_country, false)
 	
 	var player : Player = get_children().filter(func(p): return p is Player)[4]
 	player.control_scheme = Player.ControlScheme.P1
 	player.set_control_texture()
 	
-	goal_home.initialize(team_home)
-	goal_away.initialize(team_away)
+	goal_home.initialize(home_country)
+	goal_away.initialize(away_country)
 	
 func _process(_delta: float) -> void:
 	if (Time.get_ticks_msec() - time_since_last_cache_refresh) > DURATION_WEIGHT_CACHE:
