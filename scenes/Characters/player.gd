@@ -16,7 +16,7 @@ const GRAVITY := 8.0
 const WALK_ANIM_THRESHOLD := 0.6
 
 enum ControlScheme {CPU, P1, P2}
-enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING}
+enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING}
 enum Role {GOALIE, DEFENSE, MIDFIELD, OFFENSE}
 enum SkinColor {LIGHT, MEDIUM, DARK}
 
@@ -74,6 +74,7 @@ func _ready() -> void:
 	spawn_position = position
 	tackle_damage_emitter_area.body_entered.connect(on_tackle_player.bind())
 	permanent_damage_emitter_area.body_entered.connect(on_tackle_player.bind())
+	GameEvents.team_scored.connect(on_team_scored.bind())
 	
 func _process(delta: float) -> void:
 	flip_sprite()
@@ -150,6 +151,12 @@ func has_ball() -> bool:
 func on_animation_complete() -> void:
 	if current_state != null:
 		current_state.on_animation_complete()
+		
+func on_team_scored(team_scored_on: String) -> void:
+	if team_scored_on == country:
+		switch_state(Player.State.MOURNING)
+	else:
+		switch_state(Player.State.CELEBRATING)
 	
 func on_tackle_player(player: Player) -> void:
 	if player != self and player.country != country and ball.carrier == player:
