@@ -68,7 +68,6 @@ func initialize(context_position: Vector2, context_kickoff_position: Vector2, co
 
 func _ready() -> void:
 	setup_ai()
-	switch_state(State.MOVING)
 	set_control_texture()
 	set_shader_properties()
 	permanent_damage_emitter_area.monitoring = role == Role.GOALIE
@@ -77,6 +76,12 @@ func _ready() -> void:
 	tackle_damage_emitter_area.body_entered.connect(on_tackle_player.bind())
 	permanent_damage_emitter_area.body_entered.connect(on_tackle_player.bind())
 	GameEvents.team_scored.connect(on_team_scored.bind())
+	
+	var initial_position := kickoff_position if country == GameManager.get_home_country() else spawn_position
+	var data := PlayerStateData.new()
+	data.reset_position = initial_position
+	switch_state(State.RESETTING, data)
+
 	
 func _process(delta: float) -> void:
 	flip_sprite()
@@ -145,6 +150,10 @@ func flip_sprite() -> void:
 		player_sprite.flip_h = true
 		tackle_damage_emitter_area.scale.x = -1
 		opponent_detection_area.scale.x = -1
+		
+func set_control_scheme(scheme: ControlScheme) -> void:
+	control_scheme = scheme
+	set_control_texture()
 		
 func get_hurt(tackle_origin: Vector2) -> void:
 	var state_data := PlayerStateData.new()

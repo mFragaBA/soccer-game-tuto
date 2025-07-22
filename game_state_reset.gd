@@ -11,4 +11,4 @@ func _enter_tree() -> void:
 func on_player_reset_complete() -> void:
 	remaining_players_to_reset -= 1
 	if remaining_players_to_reset == 0:
-		transition_state(GameManager.State.KICKOFF)
+		transition_state(GameManager.State.KICKOFF, state_data)

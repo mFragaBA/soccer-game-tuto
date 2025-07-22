@@ -18,6 +18,7 @@ const DISTANCE_HIGH_PASS := 130
 const TUMBLE_HEIGHT_VELOCITY := 3.0
 const DURATION_TUMBLE_LOCK := 200.0
 const DURATION_PASS_LOCK := 500.0
+const KICKOFF_PASS_DISTANCE := 30.0
 
 var velocity := Vector2.ZERO
 var state_factory := BallStateFactory.new()
@@ -38,6 +39,7 @@ func _ready() -> void:
 	initial_position = position
 	
 	GameEvents.team_reset.connect(on_team_reset.bind())
+	GameEvents.kickoff_started.connect(on_kickoff_started.bind())
 
 	
 func _process(_delta) -> void:
@@ -70,7 +72,7 @@ func tumble(tumble_velocity: Vector2) -> void:
 	
 	switch_state(State.FREEFORM, new_state_data)
 	
-func pass_to(destination: Vector2) -> void:
+func pass_to(destination: Vector2, lock_duration : float = DURATION_PASS_LOCK) -> void:
 	var pass_direction = position.direction_to(destination)
 	var pass_distance = position.distance_to(destination)
 	
@@ -90,7 +92,7 @@ func pass_to(destination: Vector2) -> void:
 	
 	carrier = null
 	var new_state_data = BallStateData.new()
-	new_state_data.ball_lock_duration_ms = DURATION_PASS_LOCK
+	new_state_data.ball_lock_duration_ms = lock_duration
 	
 	switch_state(State.FREEFORM, new_state_data)
 
@@ -113,3 +115,6 @@ func on_team_reset() -> void:
 	velocity = Vector2.ZERO
 	height_velocity = 0
 	switch_state(State.FREEFORM)
+
+func on_kickoff_started() -> void:
+	pass_to(initial_position + KICKOFF_PASS_DISTANCE * Vector2.DOWN, 0)

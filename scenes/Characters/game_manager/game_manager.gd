@@ -12,9 +12,11 @@ var countries := [ "BOCA", "RIVER" ]
 var score := [ 0, 0 ]
 var time_left : float
 
+var player_setup : Array[String] = [ "BOCA", "" ]
+
 func _ready() -> void:
 	time_left = GAME_DURATION_SECONDS
-	switch_state(State.IN_PLAY)
+	switch_state(State.KICKOFF)
 
 func get_home_country() -> String:
 	return countries[0]
@@ -33,3 +35,9 @@ func switch_state(state: State, game_state_data: GameStateData = GameStateData.n
 
 	# doesn't interfere with removing the pre-existing state
 	call_deferred("add_child", current_state)	
+
+func is_coop() -> bool:
+	return player_setup[0] == player_setup[1]
+	
+func is_single_player() -> bool:
+	return player_setup[1] == ""

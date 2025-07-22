@@ -25,9 +25,7 @@ func _ready() -> void:
 	
 	squad_away = spawn_players(away_country, false)
 	
-	var player : Player = get_children().filter(func(p): return p is Player)[4]
-	player.control_scheme = Player.ControlScheme.P1
-	player.set_control_texture()
+	setup_control_schemes()
 	
 	goal_home.initialize(home_country)
 	goal_away.initialize(away_country)
@@ -72,6 +70,25 @@ func set_on_duty_weights() -> void:
 			# Divide by 10 to fit into [0, 1] range
 			cpu_players[i].weight_on_duty_steering = 1 - ease(float(i) / 10.0, 0.1)
 
+func setup_control_schemes() -> void:
+	var p1_country := GameManager.player_setup[0]
+	
+	if GameManager.is_single_player():
+		var player_squad := squad_home if squad_home[0].country == p1_country else squad_away
+		player_squad[4].set_control_scheme(Player.ControlScheme.P1)
+	elif GameManager.is_coop():
+		var player_squad := squad_home if squad_home[0].country == p1_country else squad_away
+		player_squad[4].set_control_scheme(Player.ControlScheme.P1)
+		player_squad[5].set_control_scheme(Player.ControlScheme.P2)
+	else:
+		var p1_squad := squad_home if squad_home[0].country == p1_country else squad_away
+		p1_squad[4].set_control_scheme(Player.ControlScheme.P1)
+		var p2_squad := squad_home if p1_squad == squad_away else squad_away
+		p2_squad[4].set_control_scheme(Player.ControlScheme.P2)
+	
+	var player : Player = get_children().filter(func(p): return p is Player)[4]
+	player.set_control_scheme(Player.ControlScheme.P1)
+
 func on_player_swap_request(requesting_player: Player) -> void:
 	var squad := squad_home if requesting_player.country == squad_home[0].country else squad_away
 	var cpu_players : Array[Player] = squad.filter(func(p: Player): return p.control_scheme == Player.ControlScheme.CPU and p.role != Player.Role.GOALIE)
@@ -82,7 +99,5 @@ func on_player_swap_request(requesting_player: Player) -> void:
 	var closest_cpu_to_ball := cpu_players[0]
 	if closest_cpu_to_ball.position.distance_squared_to(ball.position) < requesting_player.position.distance_squared_to(ball.position):
 		var player_control_scheme := requesting_player.control_scheme
-		requesting_player.control_scheme = Player.ControlScheme.CPU
-		requesting_player.set_control_texture()
-		closest_cpu_to_ball.control_scheme = player_control_scheme
-		closest_cpu_to_ball.set_control_texture()
+		requesting_player.set_control_scheme(Player.ControlScheme.CPU)
+		closest_cpu_to_ball.set_control_scheme(player_control_scheme)
