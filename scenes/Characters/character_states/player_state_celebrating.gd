@@ -6,12 +6,12 @@ const AIR_FRICTION := 35.0
 
 func _enter_tree() -> void:
 	celebrate()
+	GameEvents.team_reset.connect(on_team_reset.bind())
 	
 func _process(delta: float) -> void:
 	if player.height == 0:
 		celebrate()
 	player.velocity = player.velocity.move_toward(Vector2.ZERO, delta * AIR_FRICTION)
-	GameEvents.team_reset.connect(on_team_reset.bind())
 	
 func celebrate() -> void:
 	animation_player.play("celebrate")
@@ -19,6 +19,6 @@ func celebrate() -> void:
 	player.height_velocity = CELEBRATING_HEIGHT_VELOICITY
 
 func on_team_reset() -> void:
-	var state_data := PlayerStateData.new()
-	state_data.reset_position = player.spawn_position
-	transition_state(Player.State.RESETTING, state_data)
+	var data := PlayerStateData.new()
+	data.reset_position = player.spawn_position
+	transition_state(Player.State.RESETTING, data)

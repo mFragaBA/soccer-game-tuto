@@ -7,6 +7,6 @@ func _enter_tree() -> void:
 	GameEvents.team_reset.connect(on_team_reset.bind())
 	
 func on_team_reset() -> void:
-	var state_data := PlayerStateData.new()
-	state_data.reset_position = player.kickoff_position
-	transition_state(Player.State.RESETTING, state_data)
+	var data := PlayerStateData.new()
+	data.reset_position = player.kickoff_position
+	transition_state(Player.State.RESETTING, data)

@@ -10,5 +10,5 @@ func setup(context_game_manager: GameManager, context_state_data: GameStateData)
 	game_manager = context_game_manager
 	state_data = context_state_data
 
-func transition_state(new_state: GameManager.State, state_data : GameStateData = GameStateData.new()) -> void:
-	state_transition_requested.emit(new_state, state_data)
+func transition_state(new_state: GameManager.State, data : GameStateData = GameStateData.new()) -> void:
+	state_transition_requested.emit(new_state, data)
