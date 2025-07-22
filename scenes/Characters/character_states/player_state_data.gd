@@ -4,3 +4,4 @@ var shot_direction : Vector2
 var shot_power : float
 var hurt_direction : Vector2
 var pass_target : Player
+var reset_position: Vector2

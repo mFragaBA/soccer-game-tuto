@@ -16,7 +16,7 @@ const GRAVITY := 8.0
 const WALK_ANIM_THRESHOLD := 0.6
 
 enum ControlScheme {CPU, P1, P2}
-enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING}
+enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING, RESETTING}
 enum Role {GOALIE, DEFENSE, MIDFIELD, OFFENSE}
 enum SkinColor {LIGHT, MEDIUM, DARK}
 
@@ -43,6 +43,7 @@ var current_state : PlayerState = null
 var heading : Vector2 = Vector2.RIGHT
 var height : float = 0.0
 var height_velocity : float = 0.0
+var kickoff_position : Vector2 = Vector2.ZERO
 var fullname : String = ""
 var role : Role = Role.MIDFIELD
 var skin_color: SkinColor = SkinColor.MEDIUM
@@ -51,8 +52,9 @@ var spawn_position := Vector2.ZERO
 var state_factory := PlayerStateFactory.new()
 var weight_on_duty_steering := 0.0
 
-func initialize(context_position: Vector2, context_ball: Ball, context_own_goal: Goal, context_target_goal: Goal, context_player_data: PlayerResource, context_player_country: String) -> void:
+func initialize(context_position: Vector2, context_kickoff_position: Vector2, context_ball: Ball, context_own_goal: Goal, context_target_goal: Goal, context_player_data: PlayerResource, context_player_country: String) -> void:
 	position = context_position
+	kickoff_position = context_kickoff_position
 	ball = context_ball
 	own_goal = context_own_goal
 	target_goal = context_target_goal
@@ -129,6 +131,10 @@ func set_heading() -> void:
 		heading = Vector2.LEFT
 	elif velocity.x > 0:
 		heading = Vector2.RIGHT
+		
+func face_towards_target_goal() -> void:
+	if not is_facing_target_goal():
+		heading *= -1
 		
 func flip_sprite() -> void:
 	if heading == Vector2.RIGHT:

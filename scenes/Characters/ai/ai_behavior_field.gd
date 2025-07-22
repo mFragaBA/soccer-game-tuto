@@ -35,7 +35,7 @@ func perform_ai_decisions() -> void:
 		var distance_to_target := player.position.distance_to(target)
 		if distance_to_target < SHOT_DISTANCE and randf() < SHOT_PROBABILITY:
 			# Force player to face target
-			face_towards_target_goal()
+			player.face_towards_target_goal()
 			
 			# Shoot ball
 			var data := PlayerStateData.new()

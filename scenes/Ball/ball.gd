@@ -28,11 +28,16 @@ var carrier : Player = null
 var height := 0.0
 var height_velocity := 0.0
 
+var initial_position : Vector2
+
 func _ready() -> void:
 	current_court_params = court_params_factory.get_court_params(
 		court_type
 	)
 	switch_state(State.FREEFORM)
+	initial_position = position
+	
+	GameEvents.team_reset.connect(on_team_reset.bind())
 
 	
 func _process(_delta) -> void:
@@ -103,3 +108,8 @@ func is_headed_for_scoring_area(scoring_area: Area2D):
 		return false
 	return scoring_raycast.get_collider() == scoring_area
 	
+func on_team_reset() -> void:
+	position = initial_position
+	velocity = Vector2.ZERO
+	height_velocity = 0
+	switch_state(State.FREEFORM)

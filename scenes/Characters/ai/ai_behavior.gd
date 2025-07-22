@@ -57,7 +57,3 @@ func is_ball_possessed_by_opponent() -> bool:
 func has_opponents_nearby() -> bool:
 	var players := opponent_detection_area.get_overlapping_bodies()
 	return players.filter(func(p: Player): return p.country != player.country).size() > 0
-
-func face_towards_target_goal() -> void:
-	if not player.is_facing_target_goal():
-		player.heading *= -1
