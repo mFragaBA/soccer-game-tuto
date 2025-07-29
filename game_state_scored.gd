@@ -8,6 +8,7 @@ var time_since_celebration := Time.get_ticks_msec()
 func _enter_tree() -> void:
 	var team_scoring_index = 1 if state_data.team_scored_on == game_manager.get_home_country() else 0
 	game_manager.score[team_scoring_index] += 1
+	GameEvents.score_changed.emit()
 
 func _process(_delta: float) -> void:
 	if Time.get_ticks_msec() - time_since_celebration > DURATION_CELEBRATION:

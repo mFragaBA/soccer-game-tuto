@@ -10,6 +10,7 @@ var timer : float = 0
 func _enter_tree() -> void:
 	assert(carrier != null, "Ball in carried state has no carrier")
 	previous_heading = carrier.heading
+	GameEvents.ball_possesed.emit(carrier.fullname)
 	
 func _process(delta: float) -> void:
 	if previous_heading.x != carrier.heading.x:
@@ -35,3 +36,6 @@ func _process(delta: float) -> void:
 		
 	process_gravity(delta)
 	previous_heading = carrier.heading
+
+func _exit_tree() -> void:
+	GameEvents.ball_released.emit()
