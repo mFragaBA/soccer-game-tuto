@@ -6,10 +6,11 @@ func _enter_tree() -> void:
 
 func _process(delta: float) -> void:
 	game_manager.time_left -= delta
-	if game_manager.time_left <= 0 and game_manager.score[0] == game_manager.score[1]:
-		transition_state(GameManager.State.OVERTIME)
-	elif game_manager.time_left <= 0:
-		transition_state(GameManager.State.GAMEOVER)
+	if game_manager.is_time_up():
+		if game_manager.is_game_tied():
+			transition_state(GameManager.State.OVERTIME)
+		else:
+			transition_state(GameManager.State.GAMEOVER)
 	
 func on_team_scored(team_scored_on: String) -> void:
 	var data := GameStateData.new()

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwrb42aof4hc3"]
+[gd_scene load_steps=10 format=3 uid="uid://dwrb42aof4hc3"]
 
 [ext_resource type="Script" path="res://scenes/UI/ui.gd" id="1_e53j7"]
 [ext_resource type="Texture2D" uid="uid://ba1f10ypqgfat" path="res://assets/assets/art/ui/flags/flag-placeholder.png" id="1_tq6c4"]
 [ext_resource type="Texture2D" uid="uid://cvxoa031tjyp5" path="res://assets/assets/art/ui/goal.png" id="3_v1scl"]
+[ext_resource type="Texture2D" uid="uid://5edfyf8fulg5" path="res://assets/assets/art/ui/times-up.png" id="4_4bhno"]
 
 [sub_resource type="Animation" id="Animation_ihwof"]
 resource_name = "goal_appear"
@@ -119,6 +120,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UIContainer/TimesUpTexture:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
 
 [sub_resource type="Animation" id="Animation_sv0ml"]
 resource_name = "goal_hide"
@@ -173,9 +186,51 @@ tracks/3/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_xxxax"]
+resource_name = "game_over"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UIContainer/TimesUpTexture:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UIContainer/Mask:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.396078)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UIContainer/ScoreInfoLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xiiaw"]
 _data = {
 "RESET": SubResource("Animation_o2u3h"),
+"game_over": SubResource("Animation_xxxax"),
 "goal_appear": SubResource("Animation_ihwof"),
 "goal_hide": SubResource("Animation_sv0ml")
 }
@@ -279,6 +334,23 @@ grow_vertical = 2
 scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(66, 21)
 texture = ExtResource("3_v1scl")
+
+[node name="TimesUpTexture" type="TextureRect" parent="UIContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -68.0
+offset_right = 100.0
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(100, 55)
+texture = ExtResource("4_4bhno")
 
 [node name="GoalScorerLabel" type="Label" parent="UIContainer"]
 unique_name_in_owner = true

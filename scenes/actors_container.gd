@@ -71,6 +71,7 @@ func set_on_duty_weights() -> void:
 			cpu_players[i].weight_on_duty_steering = 1 - ease(float(i) / 10.0, 0.1)
 
 func setup_control_schemes() -> void:
+	reset_control_schemes()
 	var p1_country := GameManager.player_setup[0]
 	
 	if GameManager.is_single_player():
@@ -88,6 +89,11 @@ func setup_control_schemes() -> void:
 	
 	var player : Player = get_children().filter(func(p): return p is Player)[4]
 	player.set_control_scheme(Player.ControlScheme.P1)
+
+func reset_control_schemes() -> void:
+	for squad in [squad_home, squad_away]:
+		for player in squad:
+			player.set_control_scheme(Player.ControlScheme.CPU)
 
 func on_player_swap_request(requesting_player: Player) -> void:
 	var squad := squad_home if requesting_player.country == squad_home[0].country else squad_away
