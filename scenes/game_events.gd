@@ -13,3 +13,6 @@ signal player_reset_complete
 signal kickoff_started
 
 signal score_changed
+
+# Signals for ingame events (non game state changing)
+signal impact_received(impact_position: Vector3, is_high_impact: bool)

@@ -22,6 +22,7 @@ func perform_ai_movement() -> void:
 				total_steering_force += get_spawns_steering_force()
 			if ball.carrier == null:
 				total_steering_force += get_ball_proximity_steering_force()
+				total_steering_force += get_density_around_ball_force()
 
 	total_steering_force = total_steering_force.limit_length(1.0)
 		
@@ -71,6 +72,17 @@ func get_ball_proximity_steering_force() -> Vector2:
 func get_spawns_steering_force() -> Vector2:
 	var weight := get_bicircular_weight(player.position, player.spawn_position, 30, 0, 100, 1)
 	var direction := player.position.direction_to(player.spawn_position)
+	
+	return weight * direction
+	
+func get_density_around_ball_force() -> Vector2:
+	var n_teammates_around_ball := ball.get_proximity_teammates_count(player.country)
+	if n_teammates_around_ball == 0:
+		return Vector2.ZERO
+		
+	# The more teammates close to the wall, the further we want to be pushed away (e.g 3 players around ball means the force is at 66% force)
+	var weight := 1 - 1.0 / n_teammates_around_ball
+	var direction := ball.position.direction_to(player.position)
 	
 	return weight * direction
 	

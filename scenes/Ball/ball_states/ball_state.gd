@@ -13,8 +13,9 @@ var animation_player : AnimationPlayer = null
 var sprite : Sprite2D = null
 var court_params : CourtParameters = null
 var state_data : BallStateData = null
+var shot_particles : GPUParticles2D = null
 
-func setup(context_ball: Ball, context_player_detection_area: Area2D, context_carrier: Player, context_animation_player: AnimationPlayer, context_sprite: Sprite2D, context_court_params: CourtParameters, context_data: BallStateData) -> void:
+func setup(context_ball: Ball, context_player_detection_area: Area2D, context_carrier: Player, context_animation_player: AnimationPlayer, context_sprite: Sprite2D, context_court_params: CourtParameters, context_data: BallStateData, context_shot_particles: GPUParticles2D) -> void:
 	ball = context_ball
 	player_detection_area = context_player_detection_area
 	carrier = context_carrier
@@ -22,6 +23,7 @@ func setup(context_ball: Ball, context_player_detection_area: Area2D, context_ca
 	sprite = context_sprite
 	court_params = context_court_params
 	state_data = context_data
+	shot_particles = context_shot_particles
 	
 func transition_state(new_state: Ball.State, data: BallStateData = BallStateData.new()) -> void:
 	state_transition_requested.emit(new_state, data)

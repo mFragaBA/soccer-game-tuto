@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://b8mnkwb078l4g"]
+[gd_scene load_steps=37 format=3 uid="uid://b8mnkwb078l4g"]
 
 [ext_resource type="Script" path="res://scenes/Characters/player.gd" id="1_52vl3"]
 [ext_resource type="Texture2D" uid="uid://d3mss88mrtxwf" path="res://assets/assets/art/characters/soccer-player.png" id="1_lmsv4"]
@@ -7,6 +7,23 @@
 [ext_resource type="Texture2D" uid="uid://bb1wuhjx5aklv" path="res://assets/assets/art/palettes/skin-colors-palette.png" id="3_ohcws"]
 [ext_resource type="Texture2D" uid="uid://bjb5x02h0fybe" path="res://assets/assets/art/characters/player-shadow.png" id="3_v384r"]
 [ext_resource type="Texture2D" uid="uid://c5r3esy1r3p36" path="res://assets/assets/art/palettes/teams-color-palette-own.png" id="4_n8vxg"]
+[ext_resource type="Texture2D" uid="uid://bpav76pcblrfn" path="res://assets/assets/art/particles/white-circle.png" id="8_ofmsp"]
+
+[sub_resource type="Curve" id="Curve_xbvj5"]
+_data = [Vector2(0, 0.252747), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_pkved"]
+curve = SubResource("Curve_xbvj5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fnec1"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, -80, 0)
+scale_min = 0.3
+scale_max = 0.8
+scale_curve = SubResource("CurveTexture_pkved")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q0sp7"]
 resource_local_to_scene = true
@@ -400,6 +417,16 @@ collision_mask = 9
 script = ExtResource("1_52vl3")
 speed = 80.0
 power = 150.0
+
+[node name="RootParticles" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="RunParticles" type="GPUParticles2D" parent="RootParticles"]
+unique_name_in_owner = true
+position = Vector2(-5, 0)
+process_material = SubResource("ParticleProcessMaterial_fnec1")
+texture = ExtResource("8_ofmsp")
+lifetime = 0.4
 
 [node name="PlayerSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
