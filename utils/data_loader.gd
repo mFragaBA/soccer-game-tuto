@@ -1,5 +1,6 @@
 extends Node
 
+var countries : Array[String] = ["DEFAULT"]
 # Dictionary mapping string to PlayerResource array
 var squads : Dictionary
 
@@ -18,6 +19,7 @@ func _init() -> void:
 		var players := team["players"] as Array
 		
 		squads.get_or_add(country_name, [])
+		countries.append(country_name)
 		
 		for player in players:
 			var player_name := player["name"] as String
@@ -36,3 +38,6 @@ func _init() -> void:
 	
 func get_squad(country: String) -> Array:
 	return squads.get(country, [])
+
+func get_countries() -> Array[String]:
+	return countries
