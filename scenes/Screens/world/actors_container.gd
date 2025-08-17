@@ -77,7 +77,7 @@ func set_on_duty_weights() -> void:
 func setup_control_schemes() -> void:
 	reset_control_schemes()
 	var p1_country := GameManager.player_setup[0]
-	
+		
 	if GameManager.is_single_player():
 		var player_squad := squad_home if squad_home[0].country == p1_country else squad_away
 		player_squad[4].set_control_scheme(Player.ControlScheme.P1)
@@ -90,9 +90,6 @@ func setup_control_schemes() -> void:
 		p1_squad[4].set_control_scheme(Player.ControlScheme.P1)
 		var p2_squad := squad_home if p1_squad == squad_away else squad_away
 		p2_squad[4].set_control_scheme(Player.ControlScheme.P2)
-	
-	var player : Player = get_children().filter(func(p): return p is Player)[4]
-	player.set_control_scheme(Player.ControlScheme.P1)
 
 func reset_control_schemes() -> void:
 	for squad in [squad_home, squad_away]:

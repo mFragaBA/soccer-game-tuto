@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="New Game Project"
-run/main_scene="res://scenes/world.tscn"
+run/main_scene="res://scenes/soccer_game.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
 DataLoader="*res://utils/data_loader.gd"
-GameEvents="*res://scenes/game_events.gd"
+GameEvents="*res://scenes/Screens/world/game_events.gd"
 GameManager="*res://scenes/Characters/game_manager/game_manager.gd"
 SoundPlayer="*res://scenes/audio/sound_player.gd"
 

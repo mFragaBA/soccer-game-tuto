@@ -22,7 +22,6 @@ func _init() -> void:
 func _ready() -> void:
 	time_left = GAME_DURATION_SECONDS
 	GameEvents.impact_received.connect(on_impact_received.bind())
-	switch_state(State.KICKOFF)
 	
 func _process(_delta: float) -> void:
 	if get_tree().paused and Time.get_ticks_msec() - time_since_paused > IMPACT_PAUSE_DURATION:
@@ -64,6 +63,9 @@ func has_someone_scored() -> bool:
 func get_winning_country() -> String:
 	assert(not is_game_tied())
 	return countries[0] if score[0] > score[1] else countries[1]
+	
+func start_game() -> void:
+	switch_state(State.KICKOFF)
 
 func increase_score(team_scored_on: String) -> void:
 	var team_scoring_index = 1 if team_scored_on == get_home_country() else 0
