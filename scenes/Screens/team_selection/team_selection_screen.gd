@@ -44,7 +44,7 @@ func _process(_delta: float) -> void:
 		var country_p2 = GameManager.player_setup[1]
 		
 		if not country_p2.is_empty() and country_p1 != country_p2:
-			GameManager.countries = [country_p2, country_p1]
+			GameManager.current_match = Match.new(country_p2, country_p1)
 			transition_screen(SoccerGame.ScreenType.IN_GAME)
 		
 				

@@ -20,8 +20,8 @@ func _init() -> void:
 	GameEvents.impact_received.connect(on_impact_received.bind())
 
 func _ready() -> void:
-	var home_country := GameManager.get_home_country()
-	var away_country := GameManager.get_away_country()
+	var home_country := GameManager.current_match.team_home
+	var away_country := GameManager.current_match.team_away
 	squad_home = spawn_players(home_country, true)
 	
 	spawns.scale.x *= -1

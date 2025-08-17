@@ -7,7 +7,7 @@ func _enter_tree() -> void:
 	var team_starting := state_data.team_scored_on
 	
 	if team_starting.is_empty():
-		team_starting = game_manager.get_home_country()
+		team_starting = game_manager.current_match.team_home
 	
 	if team_starting == game_manager.player_setup[0]:
 		valid_control_schemes.append(Player.ControlScheme.P1)
