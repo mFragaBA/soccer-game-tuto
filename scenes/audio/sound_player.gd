@@ -1,6 +1,6 @@
 extends Node
 
-enum Sound { BOUNCE, HURT, PASS, POWERSHOT, SHOT, TACKLING, UI_NAV, UI_SELECT, WHISTLE }
+enum Sound { BOUNCE, HURT, PASS, POWERSHOT, SHOT, TACKLING, UI_NAV, UI_SELECT, WHISTLE, CHAMPION }
 
 const N_CHANNELS := 4
 const SFX_MAP : Dictionary = {
@@ -13,6 +13,7 @@ const SFX_MAP : Dictionary = {
 	Sound.UI_NAV: preload("res://assets/assets/sfx/ui-navigate.wav"),
 	Sound.UI_SELECT: preload("res://assets/assets/sfx/ui-select.wav"),
 	Sound.WHISTLE: preload("res://assets/assets/sfx/whistle.wav"),
+	Sound.CHAMPION: preload("res://assets/assets/sfx/winneris.ogg"),
 }
 
 var stream_players : Array[AudioStreamPlayer] = []

@@ -1,6 +1,9 @@
 class_name TournamentScreen
 extends Screen
 
+const CONFETTI_PREFAB := preload("res://scenes/Screens/tournament/falling_confetti.tscn")
+const CONFETTI_AMOUNT := 50
+
 const STAGE_TEXTURES := {
 	Tournament.Stage.QUARTER_FINALS: preload("res://assets/assets/art/ui/teamselection/quarters-label.png"),
 	Tournament.Stage.SEMI_FINALS: preload("res://assets/assets/art/ui/teamselection/semis-label.png"),
@@ -21,13 +24,28 @@ var players_country : String = GameManager.player_setup[0]
 var tournament : Tournament = null
 
 func _ready() -> void:
-	tournament = Tournament.new()
+	tournament = screen_data.tournament
 	refresh_brackets()
+	if not tournament.winner.is_empty() and tournament.winner == GameManager.player_setup[0]:
+		SoundPlayer.play(SoundPlayer.Sound.CHAMPION)
+		
+		var screen_size := get_viewport().get_visible_rect().size
+		var affine_inverse : Transform2D = get_viewport().get_canvas_transform().affine_inverse()
+		for i in range(CONFETTI_AMOUNT):
+			var confetti := CONFETTI_PREFAB.instantiate()
+			var random_canvas_pos = Vector2(randf_range(0, 1), randf_range(-1, 0)) * screen_size
+			confetti.position = affine_inverse * random_canvas_pos
+			add_child(confetti)
+			
 	
 func _process(_delta: float) -> void:
 	if KeyUtils.is_action_just_pressed(Player.ControlScheme.P1, KeyUtils.Action.SHOOT):
-		tournament.advance_stage()
-		refresh_brackets()
+		if tournament.current_stage < Tournament.Stage.COMPLETE:
+			transition_screen(SoccerGame.ScreenType.IN_GAME, screen_data)
+		else:
+			transition_screen(SoccerGame.ScreenType.MAIN_MENU, screen_data)
+		
+		SoundPlayer.play(SoundPlayer.Sound.UI_SELECT)
 	
 func refresh_brackets() -> void:
 	for stage in range(tournament.current_stage + 1):

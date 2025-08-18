@@ -46,6 +46,10 @@ func _process(_delta: float) -> void:
 		if not country_p2.is_empty() and country_p1 != country_p2:
 			GameManager.current_match = Match.new(country_p2, country_p1)
 			transition_screen(SoccerGame.ScreenType.IN_GAME)
+		else:
+			var data := ScreenData.new()
+			data.tournament = Tournament.new()
+			transition_screen(SoccerGame.ScreenType.TOURNAMENT, data)
 		
 				
 func try_navigate(selector_idx: int, offset: Vector2i) -> void:

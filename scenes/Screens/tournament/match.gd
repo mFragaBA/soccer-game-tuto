@@ -7,16 +7,16 @@ var goals_away : int
 var final_score : String
 var winner : String
 
-func _init(team_home: String, team_away: String) -> void:
-	self.team_home = team_home
-	self.team_away = team_away
+func _init(game_team_home: String, game_team_away: String) -> void:
+	team_home = game_team_home
+	team_away = game_team_away
 	update_match_info()
 	
 func increase_score(team_scored_on: String) -> void:
 	if team_scored_on == team_home:
-		goals_home += 1
-	else:
 		goals_away += 1
+	else:
+		goals_home += 1
 
 	update_match_info()
 	
