@@ -19,7 +19,6 @@ func _init() -> void:
 	process_mode = ProcessMode.PROCESS_MODE_ALWAYS
 
 func _ready() -> void:
-	time_left = GAME_DURATION_SECONDS
 	GameEvents.impact_received.connect(on_impact_received.bind())
 	
 func _process(_delta: float) -> void:
@@ -52,6 +51,7 @@ func get_winning_country() -> String:
 	return current_match.winner
 	
 func start_game() -> void:
+	time_left = GAME_DURATION_SECONDS
 	switch_state(State.KICKOFF)
 
 func increase_score(team_scored_on: String) -> void:

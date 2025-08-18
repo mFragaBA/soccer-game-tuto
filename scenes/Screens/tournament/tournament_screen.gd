@@ -27,7 +27,7 @@ func _ready() -> void:
 	tournament = screen_data.tournament
 	refresh_brackets()
 	if not tournament.winner.is_empty() and tournament.winner == GameManager.player_setup[0]:
-		SoundPlayer.play(SoundPlayer.Sound.CHAMPION)
+		MusicPlayer.play_music(MusicPlayer.Music.WIN)
 		
 		var screen_size := get_viewport().get_visible_rect().size
 		var affine_inverse : Transform2D = get_viewport().get_canvas_transform().affine_inverse()
