@@ -1,6 +1,8 @@
 class_name PlayerStateMoving
 extends PlayerState
 
+const DISTANCE_FROM_BALL_TO_HEADER := 20.0
+
 func _process(_delta: float) -> void:
 	if player.control_scheme == Player.ControlScheme.CPU:
 		ai_behavior.process_ai()
@@ -27,16 +29,18 @@ func handle_human_movement() -> void:
 	elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 		if player.has_ball():
 			transition_state(Player.State.PREPPING_SHOT)
-		elif ball.can_air_interact():
-			if player.velocity == Vector2.ZERO:
-				if player.is_facing_target_goal():
-					transition_state(Player.State.VOLLEY_KICK)
-				else:
-					transition_state(Player.State.BICYCLE_KICK)
-			else:
-				transition_state(Player.State.HEADER)
+		elif ball.can_air_interact() and ball.position.distance_to(player.position) < DISTANCE_FROM_BALL_TO_HEADER:				
+			transition_state(Player.State.HEADER)
 		else:
 			transition_state(Player.State.TACKLING)
+	elif KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SPECIAL):
+		if not player.has_ball() and ball.can_air_interact():
+			if player.is_facing_target_goal():
+				transition_state(Player.State.VOLLEY_KICK)
+			else:
+				transition_state(Player.State.BICYCLE_KICK)
+			
+	
 
 func can_carry_ball() -> bool:
 	return player.role != Player.Role.GOALIE
