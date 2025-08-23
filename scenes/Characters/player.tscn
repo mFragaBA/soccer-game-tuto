@@ -459,7 +459,6 @@ shape = SubResource("CapsuleShape2D_bsqij")
 
 [node name="TeammateDetectionArea" type="Area2D" parent="."]
 unique_name_in_owner = true
-visible = false
 collision_layer = 0
 collision_mask = 2
 monitorable = false
@@ -511,6 +510,7 @@ shape = SubResource("CapsuleShape2D_dcjwb")
 
 [node name="PermanentDamageEmitterArea" type="Area2D" parent="."]
 unique_name_in_owner = true
+visible = false
 collision_layer = 0
 collision_mask = 2
 monitoring = false
@@ -521,6 +521,7 @@ position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_2nlnw")
 
 [node name="GoalieHands" type="AnimatableBody2D" parent="."]
+visible = false
 collision_layer = 32
 collision_mask = 4
 sync_to_physics = false
