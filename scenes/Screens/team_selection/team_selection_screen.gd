@@ -48,7 +48,7 @@ func _process(_delta: float) -> void:
 			transition_screen(SoccerGame.ScreenType.IN_GAME)
 		else:
 			var data := ScreenData.new()
-			data.tournament = Tournament.new()
+			data.tournament = TournamentBuilder.new().with_amount_of_teams(8).with_team(country_p1).build()
 			transition_screen(SoccerGame.ScreenType.TOURNAMENT, data)
 		
 				

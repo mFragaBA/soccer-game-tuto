@@ -56,6 +56,7 @@ goal_away = NodePath("PitchObjects/GoalAway")
 
 [node name="Ball" parent="ActorsContainer" instance=ExtResource("6_bwa7i")]
 position = Vector2(425, 185)
+court_type = 3
 
 [node name="Spawns" type="Node2D" parent="ActorsContainer"]
 unique_name_in_owner = true

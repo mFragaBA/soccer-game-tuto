@@ -6,6 +6,7 @@ const DISTANCE_FROM_BALL_TO_HEADER := 20.0
 func _process(_delta: float) -> void:
 	if player.control_scheme == Player.ControlScheme.CPU:
 		ai_behavior.process_ai()
+		pass
 	else:
 		handle_human_movement()
 		

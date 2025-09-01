@@ -12,6 +12,8 @@ const STAGE_TEXTURES := {
 }
 
 @onready var flag_containers : Dictionary = {
+	Tournament.Stage.ROUND_OF_THIRTY_TWO: [],
+	Tournament.Stage.ROUND_OF_SIXTEEN: [],
 	Tournament.Stage.QUARTER_FINALS: [%QuarterfinalLeftContainer, %QuarterfinalRightContainer],
 	Tournament.Stage.SEMI_FINALS: [%SemifinalLeftContainer, %SemifinalRightContainer],
 	Tournament.Stage.FINAL: [%FinalLeftContainer, %FinalRightContainer],

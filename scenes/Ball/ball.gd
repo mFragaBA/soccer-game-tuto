@@ -13,10 +13,11 @@ enum State { CARRIED, FREEFORM, SHOT }
 @export var court_type : CourtParamsFactory.CourtType = CourtParamsFactory.CourtType.SAMPLE
 
 # Affects friction, but it's a global parameter
-const FRICTION_AIR := 0.05
+const FRICTION_AIR := 0.1
 const MAX_DRAG := 1000.0
-const GRAVITY_FORCE := 10.0
+const GRAVITY_FORCE := 9.0
 const DISTANCE_HIGH_PASS := 130
+const HIGH_PASS_REACH_SPEED = 50
 const TUMBLE_HEIGHT_VELOCITY := 3.0
 const DURATION_TUMBLE_LOCK := 200.0
 const DURATION_PASS_LOCK := 500.0
@@ -84,13 +85,29 @@ func pass_to(destination: Vector2, lock_duration : float = DURATION_PASS_LOCK) -
 	
 	if pass_distance > DISTANCE_HIGH_PASS:
 		# Note: this is technically not precise. Because the horizontal velocity 
-		# magnitude is calculated assuming fround friction which is higher than air friction
+		# magnitude is calculated assuming ground friction which is higher than air friction
 		# the pass would actually go past the player if the player is not there to receive it
 		# That being said, if we do the calculation with air friction, the velocity is really slow
 		# and the ball takes much longer to reach the player and thus to compensate the height 
 		# must be greater to compensate for all that extra time, which makes the trajectory look
 		# awful. Also use 1.8 instead of 2 so that it reaches better for a header
-		height_velocity = GRAVITY_FORCE * pass_distance / (1.8 * horizontal_velocity_magnitude)
+		#height_velocity = GRAVITY_FORCE * pass_distance / (2 * horizontal_velocity_magnitude)
+		
+		friction_force = FRICTION_AIR * MAX_DRAG
+		horizontal_velocity_magnitude = sqrt(2 * pass_distance * friction_force) + HIGH_PASS_REACH_SPEED
+		velocity = horizontal_velocity_magnitude * pass_direction
+		height_velocity = GRAVITY_FORCE * pass_distance / (1.9 * horizontal_velocity_magnitude)
+		
+		#var header_height := 0 # 10px. it is between 10 and 30
+		#height_velocity = header_height * horizontal_velocity_magnitude / (2 * pass_distance) + GRAVITY_FORCE * pass_distance / horizontal_velocity_magnitude
+
+		## Air pass (lands at target position with some speed)
+		#var a_air := MAX_DRAG * FRICTION_AIR            # (or pick a per-pass a_air you like)
+		#var T := sqrt(2.0 * pass_distance / a_air)
+		#var v0 := a_air * T
+		#velocity = pass_direction * v0
+		#height_velocity = (HIGH_PASS_REACH_SPEED / T) + 0.5 * GRAVITY_FORCE * T             # GRAVITY is positive downward if you do `vy -= GRAVITY*dt`
+
 	
 	carrier = null
 	var new_state_data = BallStateData.new()
