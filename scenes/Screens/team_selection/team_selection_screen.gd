@@ -11,62 +11,59 @@ const VERTICAL_MARGIN := 35
 
 @onready var flags_container : Control = %FlagsContainer
 
-var selection : Array[Vector2i] = [Vector2i.ZERO, Vector2i.ZERO]
+var selection : Array[int] = [0]
 var selectors : Array[FlagSelector] = []
 var countries : Array[String] = []
 
 func _ready() -> void:
-	countries = DataLoader.get_countries()
+	countries = DataLoader.get_countries().slice(1)
 	
-	place_flags()
-	place_selectors()
+	#place_flags()
+	#place_selectors()
 	
 func _process(_delta: float) -> void:
-	for i in range(selectors.size()):
-		var selector = selectors[i]
-		if not selector.is_selected:
-			if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.RIGHT):
-				try_navigate(i, Vector2i.RIGHT)
-			if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.LEFT):
-				try_navigate(i, Vector2i.LEFT)
-			if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.UP):
-				try_navigate(i, Vector2i.UP)
-			if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.DOWN):
-				try_navigate(i, Vector2i.DOWN)
-				
-	if not selectors[0].is_selected and KeyUtils.is_action_just_pressed(selectors[0].control_scheme, KeyUtils.Action.PASS):
-		SoundPlayer.play(SoundPlayer.Sound.UI_SELECT)
-		transition_screen(SoccerGame.ScreenType.MAIN_MENU)
-		
-	# Start Match / Tournament
-	if selectors.all(func(selector): return selector.is_selected):
-		var country_p1 = GameManager.player_setup[0]
-		var country_p2 = GameManager.player_setup[1]
-		
-		if not country_p2.is_empty() and country_p1 != country_p2:
-			GameManager.current_match = Match.new(country_p2, country_p1)
-			transition_screen(SoccerGame.ScreenType.IN_GAME)
-		else:
-			var data := ScreenData.new()
-			data.tournament = TournamentBuilder.new().with_amount_of_teams(8).with_team(country_p1).build()
-			transition_screen(SoccerGame.ScreenType.TOURNAMENT, data)
-		
-				
-func try_navigate(selector_idx: int, offset: Vector2i) -> void:
-	selection[selector_idx].x = (selection[selector_idx].x + offset.y + N_ROWS) % N_ROWS
-	selection[selector_idx].y = (selection[selector_idx].y + offset.x + N_COLS) % N_COLS
+	if KeyUtils.is_action_just_pressed(Player.ControlScheme.P1, KeyUtils.Action.RIGHT):
+		try_navigate(0, 1)
+	if KeyUtils.is_action_just_pressed(Player.ControlScheme.P1, KeyUtils.Action.LEFT):
+		try_navigate(0, -1)
 	
-	# update selector position
-	var selected_country_idx := selection[selector_idx].x * N_COLS + selection[selector_idx].y
+	#for i in range(selectors.size()):
+		#var selector = selectors[i]
+		#if not selector.is_selected:
+			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.RIGHT):
+				#try_navigate(i, Vector2i.RIGHT)
+			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.LEFT):
+				#try_navigate(i, Vector2i.LEFT)
+			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.UP):
+				#try_navigate(i, Vector2i.UP)
+			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.DOWN):
+				#try_navigate(i, Vector2i.DOWN)
+				#
+	#if not selectors[0].is_selected and KeyUtils.is_action_just_pressed(selectors[0].control_scheme, KeyUtils.Action.PASS):
+		#SoundPlayer.play(SoundPlayer.Sound.UI_SELECT)
+		#transition_screen(SoccerGame.ScreenType.MAIN_MENU)
+		#
+	## Start Match / Tournament
+	#if selectors.all(func(selector): return selector.is_selected):
+		#var country_p1 = GameManager.player_setup[0]
+		#var country_p2 = GameManager.player_setup[1]
+		#
+		#if not country_p2.is_empty() and country_p1 != country_p2:
+			#GameManager.current_match = Match.new(country_p2, country_p1)
+			#transition_screen(SoccerGame.ScreenType.IN_GAME)
+		#else:
+			#var data := ScreenData.new()
+			#data.tournament = TournamentBuilder.new().with_amount_of_teams(8).with_team(country_p1).build()
+			#transition_screen(SoccerGame.ScreenType.TOURNAMENT, data)
+		
+				
+func try_navigate(selector_idx: int, offset: int) -> void:
+	var prev_selection = selection[selector_idx]
+	selection[selector_idx] = (selection[selector_idx] + countries.size() + offset) % countries.size()
+	%P1ScrollContainer.roll(prev_selection, selection[selector_idx])
+	GameManager.player_setup[selector_idx] = countries[selection[selector_idx]]
+	SoundPlayer.play(SoundPlayer.Sound.UI_NAV)
 
-	if selected_country_idx < (countries.size() - 1):
-		selectors[selector_idx].position = flags_container.get_child(selected_country_idx).position
-		GameManager.player_setup[selector_idx] = countries[1 + selected_country_idx]
-		SoundPlayer.play(SoundPlayer.Sound.UI_NAV)
-	else:
-		# repeat movement (this ensures we wrap over the sides) if we don't have a full
-		# square
-		try_navigate(selector_idx, offset)
 	
 func place_flags() -> void:
 	for i in range(N_ROWS):
