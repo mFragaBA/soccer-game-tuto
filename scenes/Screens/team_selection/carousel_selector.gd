@@ -1,21 +1,26 @@
+class_name CarouselSelector
 extends ScrollContainer
 
-var img_size
+@export var side_margin : float
+@export var element_separation: float
+
+var elem_size
 var countries : Array[String] = []
 var child_count : int
+var is_selected : bool = false
 
-func _ready():
+func initialize(element_textures: Array[TextureRect]):
 	countries = DataLoader.get_countries().slice(1)
 	
 	# Add Margin left
 	var margin_container : MarginContainer = MarginContainer.new()
-	margin_container.add_theme_constant_override("margin_left", 5)
+	margin_container.add_theme_constant_override("margin_left", side_margin)
 	%HBoxContainer.add_child(margin_container)
 	
-	place_flags()
+	place_elements(element_textures)
 	# Setup flags
 		
-	img_size = %HBoxContainer.get_child(1).get_texture().get_size()
+	elem_size = element_textures[0].get_size()
 	# duplicate first character to set him in front and back of carousel to create the effect
 	var first_child = %HBoxContainer.get_child(1)
 	# -1 bc of the margin
@@ -25,32 +30,30 @@ func _ready():
 	
 	# Add Margin Right
 	var margin_container_right : MarginContainer = MarginContainer.new()
-	margin_container_right.add_theme_constant_override("margin_right", 5)
+	margin_container_right.add_theme_constant_override("margin_right", side_margin)
 	%HBoxContainer.add_child(margin_container_right)
 	
-	%HBoxContainer.add_theme_constant_override("separation", 5)
-
+	%HBoxContainer.add_theme_constant_override("separation", element_separation)
+	
+	# To set initial position
+	roll(0, 0)
 
 # scroll the scrollcontainer when choosing an item
 func roll(prev = 0, next = 0):
 	var prev_pos
 	var next_pos
-	prev_pos = 5 + prev * (img_size.x + 5)
-	next_pos = 5 + next * (img_size.x + 5)
+	prev_pos = side_margin + prev * (elem_size.x + element_separation)
+	next_pos = side_margin + next * (elem_size.x + element_separation)
 	if prev == child_count-1 and next == 0:
-		next_pos = 5 + (prev+1) * (img_size.x + 5)
+		next_pos = side_margin + (prev+1) * (elem_size.x + element_separation)
 	elif prev == 0 and next == child_count-1:
-		prev_pos = 5 + (next+1) * (img_size.x + 5)
+		prev_pos = side_margin + (next+1) * (elem_size.x + element_separation)
 	
 	self.scroll_horizontal = prev_pos
 	var tween = create_tween()
 	tween.tween_property(self, "scroll_horizontal", next_pos, 0.1).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.play()
 
-func place_flags() -> void:
-	for country in countries:
-		var flag_texture := TextureRect.new()
-		flag_texture.texture = FlagHelper.get_texture(country)
-		flag_texture.scale = Vector2(2, 2)
-		#flag_texture.z_index = 1
-		%HBoxContainer.add_child(flag_texture)
+func place_elements(elements: Array[TextureRect]) -> void:
+	for element in elements:
+		%HBoxContainer.add_child(element)

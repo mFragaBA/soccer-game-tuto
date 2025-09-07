@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bae2m5dk6y5af"]
+[gd_scene load_steps=6 format=3 uid="uid://bae2m5dk6y5af"]
 
 [ext_resource type="Script" path="res://scenes/Screens/team_selection/team_selection_screen.gd" id="1_8xwi8"]
 [ext_resource type="Texture2D" uid="uid://dux71cjewsp07" path="res://assets/assets/art/ui/teamselection/team-selection-background.png" id="1_xhx04"]
 [ext_resource type="Texture2D" uid="uid://dtcopq88sgcce" path="res://assets/assets/art/ui/teamselection/select-team-label.png" id="2_werlf"]
-[ext_resource type="Script" path="res://scenes/Screens/team_selection/carousel_selector.gd" id="4_61ldj"]
+[ext_resource type="PackedScene" uid="uid://dokutkioxkfep" path="res://scenes/UI/carousel_selector.tscn" id="4_athdd"]
+[ext_resource type="PackedScene" uid="uid://dxr3wckispfll" path="res://scenes/flag_selector.tscn" id="5_0v1sq"]
 
 [node name="TeamSelectionScreen" type="Node"]
 script = ExtResource("1_8xwi8")
@@ -37,43 +38,64 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="P1ScrollContainer" type="ScrollContainer" parent="Background/FlagsContainer"]
+[node name="P1CarouselSelector" parent="Background/FlagsContainer" instance=ExtResource("4_athdd")]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -90.0
-offset_top = -5.0
-offset_right = -58.0
-offset_bottom = 15.0
-grow_horizontal = 2
-grow_vertical = 2
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
-script = ExtResource("4_61ldj")
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 70.0
+offset_right = 99.0
+offset_bottom = 98.0
+grow_horizontal = 1
+grow_vertical = 1
+side_margin = 5.0
+element_separation = 10.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Background/FlagsContainer/P1ScrollContainer"]
+[node name="P2CarouselSelector" parent="Background/FlagsContainer" instance=ExtResource("4_athdd")]
 unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 25
-alignment = 1
-
-[node name="P2ScrollContainer" type="ScrollContainer" parent="Background/FlagsContainer"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 195.0
+offset_top = 70.0
+offset_right = 249.0
+offset_bottom = 98.0
+grow_horizontal = 1
+grow_vertical = 1
+side_margin = 5.0
+element_separation = 10.0
+
+[node name="P1FlagSelector" parent="Background/FlagsContainer" instance=ExtResource("5_0v1sq")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 4
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 0.0
 anchor_bottom = 0.5
 offset_left = 50.0
-offset_top = -5.0
-offset_right = 90.0
-offset_bottom = 35.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_top = -20.0
+offset_right = 50.0
+offset_bottom = -20.0
+grow_horizontal = 1
+control_scheme = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Background/FlagsContainer/P2ScrollContainer"]
-layout_mode = 2
+[node name="P2FlagSelector" parent="Background/FlagsContainer" instance=ExtResource("5_0v1sq")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -20.0
+offset_right = -80.0
+offset_bottom = -20.0
+grow_horizontal = 0
+control_scheme = 2

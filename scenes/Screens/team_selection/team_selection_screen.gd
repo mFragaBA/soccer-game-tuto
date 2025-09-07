@@ -2,7 +2,6 @@ class_name TeamSelectionScreen
 extends Screen
 
 const FLAG_ANCHOR_POINT := Vector2(25, 70)
-const FLAG_SELECTOR_PREFAB := preload("res://scenes/Screens/team_selection/flag_selector.tscn")
 const N_ROWS := 3
 const N_COLS := 5
 
@@ -10,85 +9,66 @@ const HORIZONTAL_MARGIN := 50
 const VERTICAL_MARGIN := 35
 
 @onready var flags_container : Control = %FlagsContainer
+@onready var selectors : Array[CarouselSelector] = [%P1CarouselSelector, %P2CarouselSelector]
+@onready var flag_selectors : Array[FlagSelector] = [%P1FlagSelector, %P2FlagSelector]
 
-var selection : Array[int] = [0]
-var selectors : Array[FlagSelector] = []
+var selection : Array[int] = [0, 0]
 var countries : Array[String] = []
 
 func _ready() -> void:
 	countries = DataLoader.get_countries().slice(1)
 	
-	#place_flags()
-	#place_selectors()
-	
+	# Initialize flag textures for all players
+	for selector in selectors:
+		var flag_textures : Array[TextureRect] = []
+		for country in countries:
+			var flag_texture := TextureRect.new()
+			flag_texture.texture = FlagHelper.get_texture(country)
+			flag_texture.size = Vector2(44, 28)
+			flag_texture.custom_minimum_size = Vector2(44, 28)
+			#flag_texture.z_index = 1
+			flag_textures.append(flag_texture)
+		
+		selector.initialize(flag_textures)
+		
+	if GameManager.player_setup[1].is_empty():
+		flag_selectors[1].queue_free()
+		selectors[1].queue_free()
+		flag_selectors.pop_back()
+		selectors.pop_back()
+		selection.pop_back()
+		
 func _process(_delta: float) -> void:
-	if KeyUtils.is_action_just_pressed(Player.ControlScheme.P1, KeyUtils.Action.RIGHT):
-		try_navigate(0, 1)
-	if KeyUtils.is_action_just_pressed(Player.ControlScheme.P1, KeyUtils.Action.LEFT):
-		try_navigate(0, -1)
+	for i in range(selectors.size()):
+		if flag_selectors[i].is_selected:
+			continue
+			
+		if KeyUtils.is_action_just_pressed(flag_selectors[i].control_scheme, KeyUtils.Action.RIGHT):
+			try_navigate(i, 1)
+		if KeyUtils.is_action_just_pressed(flag_selectors[i].control_scheme, KeyUtils.Action.LEFT):
+			try_navigate(i, -1)
 	
-	#for i in range(selectors.size()):
-		#var selector = selectors[i]
-		#if not selector.is_selected:
-			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.RIGHT):
-				#try_navigate(i, Vector2i.RIGHT)
-			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.LEFT):
-				#try_navigate(i, Vector2i.LEFT)
-			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.UP):
-				#try_navigate(i, Vector2i.UP)
-			#if KeyUtils.is_action_just_pressed(selector.control_scheme, KeyUtils.Action.DOWN):
-				#try_navigate(i, Vector2i.DOWN)
-				#
-	#if not selectors[0].is_selected and KeyUtils.is_action_just_pressed(selectors[0].control_scheme, KeyUtils.Action.PASS):
-		#SoundPlayer.play(SoundPlayer.Sound.UI_SELECT)
-		#transition_screen(SoccerGame.ScreenType.MAIN_MENU)
-		#
+	if not flag_selectors[0].is_selected and KeyUtils.is_action_just_pressed(flag_selectors[0].control_scheme, KeyUtils.Action.PASS):
+		SoundPlayer.play(SoundPlayer.Sound.UI_SELECT)
+		transition_screen(SoccerGame.ScreenType.MAIN_MENU)
+		
 	## Start Match / Tournament
-	#if selectors.all(func(selector): return selector.is_selected):
-		#var country_p1 = GameManager.player_setup[0]
-		#var country_p2 = GameManager.player_setup[1]
-		#
-		#if not country_p2.is_empty() and country_p1 != country_p2:
-			#GameManager.current_match = Match.new(country_p2, country_p1)
-			#transition_screen(SoccerGame.ScreenType.IN_GAME)
-		#else:
-			#var data := ScreenData.new()
-			#data.tournament = TournamentBuilder.new().with_amount_of_teams(8).with_team(country_p1).build()
-			#transition_screen(SoccerGame.ScreenType.TOURNAMENT, data)
+	if flag_selectors.all(func(selector): return selector.is_selected):
+		var country_p1 = GameManager.player_setup[0]
+		var country_p2 = GameManager.player_setup[1]
+		
+		if not country_p2.is_empty() and country_p1 != country_p2:
+			GameManager.current_match = Match.new(country_p2, country_p1)
+			transition_screen(SoccerGame.ScreenType.IN_GAME)
+		else:
+			var data := ScreenData.new()
+			data.tournament = TournamentBuilder.new().with_amount_of_teams(8).with_team(country_p1).build()
+			transition_screen(SoccerGame.ScreenType.TOURNAMENT, data)
 		
 				
 func try_navigate(selector_idx: int, offset: int) -> void:
 	var prev_selection = selection[selector_idx]
 	selection[selector_idx] = (selection[selector_idx] + countries.size() + offset) % countries.size()
-	%P1ScrollContainer.roll(prev_selection, selection[selector_idx])
+	selectors[selector_idx].roll(prev_selection, selection[selector_idx])
 	GameManager.player_setup[selector_idx] = countries[selection[selector_idx]]
 	SoundPlayer.play(SoundPlayer.Sound.UI_NAV)
-
-	
-func place_flags() -> void:
-	for i in range(N_ROWS):
-		for j in range(N_COLS):
-			var country_index := 1 + i * N_COLS + j
-			
-			if country_index >= countries.size():
-				continue
-			
-			var country := countries[country_index]
-			var flag_texture := TextureRect.new()
-			flag_texture.position = FLAG_ANCHOR_POINT + Vector2(HORIZONTAL_MARGIN * j, VERTICAL_MARGIN * i)
-			flag_texture.texture = FlagHelper.get_texture(country)
-			flag_texture.scale = Vector2(2, 2)
-			#flag_texture.z_index = 1
-			flags_container.add_child(flag_texture)
-
-func place_selectors() -> void:
-	add_selector(Player.ControlScheme.P1)
-	if not GameManager.player_setup[1].is_empty():
-		add_selector(Player.ControlScheme.P2)
-	
-func add_selector(control_scheme: Player.ControlScheme) -> void:
-	var selector := FLAG_SELECTOR_PREFAB.instantiate()
-	selector.position = flags_container.get_child(0).position
-	selector.control_scheme = control_scheme
-	selectors.append(selector)
-	flags_container.add_child(selector)
