@@ -11,6 +11,7 @@ const VERTICAL_MARGIN := 35
 @onready var flags_container : Control = %FlagsContainer
 @onready var selectors : Array[CarouselSelector] = [%P1CarouselSelector, %P2CarouselSelector]
 @onready var flag_selectors : Array[FlagSelector] = [%P1FlagSelector, %P2FlagSelector]
+@onready var selected_team_labels : Array[Label] = [%P1SelectedTeam, %P2SelectedTeam]
 
 var selection : Array[int] = [0, 0]
 var countries : Array[String] = []
@@ -34,9 +35,13 @@ func _ready() -> void:
 	if GameManager.player_setup[1].is_empty():
 		flag_selectors[1].queue_free()
 		selectors[1].queue_free()
+		selected_team_labels[1].queue_free()
 		flag_selectors.pop_back()
 		selectors.pop_back()
+		selected_team_labels.pop_back()
 		selection.pop_back()
+		
+	update_selected_team_labels()
 		
 func _process(_delta: float) -> void:
 	for i in range(selectors.size()):
@@ -51,6 +56,8 @@ func _process(_delta: float) -> void:
 	if not flag_selectors[0].is_selected and KeyUtils.is_action_just_pressed(flag_selectors[0].control_scheme, KeyUtils.Action.PASS):
 		SoundPlayer.play(SoundPlayer.Sound.UI_SELECT)
 		transition_screen(SoccerGame.ScreenType.MAIN_MENU)
+		
+	update_selected_team_labels()
 		
 	## Start Match / Tournament
 	if flag_selectors.all(func(selector): return selector.is_selected):
@@ -72,3 +79,7 @@ func try_navigate(selector_idx: int, offset: int) -> void:
 	selectors[selector_idx].roll(prev_selection, selection[selector_idx])
 	GameManager.player_setup[selector_idx] = countries[selection[selector_idx]]
 	SoundPlayer.play(SoundPlayer.Sound.UI_NAV)
+	
+func update_selected_team_labels() -> void:
+	for i in range(selected_team_labels.size()):
+		selected_team_labels[i].text = countries[selection[i]]
