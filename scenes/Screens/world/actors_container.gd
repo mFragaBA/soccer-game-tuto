@@ -43,7 +43,7 @@ func spawn_players(country: String, is_home: bool) -> Array[Player]:
 	var player_nodes : Array[Player] = []
 	var own_goal := goal_home if is_home else goal_away
 	var target_goal := goal_away if is_home else goal_home
-	var players := DataLoader.get_squad(country)
+	var players := DataLoader.get_squad(country).players
 	
 	for i in players.size():
 		var player_position := spawns.get_child(i).global_position as Vector2

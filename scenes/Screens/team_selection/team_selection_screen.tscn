@@ -40,6 +40,7 @@ grow_vertical = 2
 
 [node name="P1CarouselSelector" parent="Background/FlagsContainer" instance=ExtResource("4_athdd")]
 unique_name_in_owner = true
+layout_mode = 0
 anchors_preset = 0
 anchor_left = 0.0
 anchor_top = 0.0

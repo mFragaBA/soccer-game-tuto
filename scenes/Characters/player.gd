@@ -92,10 +92,10 @@ func _process(delta: float) -> void:
 	
 func set_shader_properties() -> void:
 	player_sprite.material.set_shader_parameter("skin_index", skin_color)
-	var countries := DataLoader.get_countries()
-	var country_color := countries.find(country)
-	country_color = clampi(country_color, 0, countries.size() - 1)
-	player_sprite.material.set_shader_parameter("team_index", country_color)
+	
+	var country_palette := DataLoader.get_squad(country).palette
+	player_sprite.material.set_shader_parameter("team_palette", country_palette)
+	player_sprite.material.set_shader_parameter("team_index", 1)
 	
 func switch_state(state: State, player_state_data: PlayerStateData = PlayerStateData.new()) -> void:
 	if current_state != null:

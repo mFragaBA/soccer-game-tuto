@@ -1,5 +1,6 @@
 [{
 	"country": "FRANCE",
+	"palette": ["#6064FC", "#3B3F88", "#6064FC", "#3B3F88", "#FFFFFF", "#D2D2D2"],
 	"players": [{
 		"name": "H. LLORIS",
 		"skin": 0,
@@ -39,6 +40,7 @@
 	}]
 }, {
 	"country": "ARGENTINA",
+	"palette": ["#F7EDEC", "#00B8EB", "#F7EDEC", "#00B8EB", "#F7EDEC", "#60AFEE"],
 	"players": [{
 		"name": "E. MARTINEZ",
 		"skin": 0,
@@ -78,6 +80,7 @@
 	}]
 }, {
 	"country": "BRAZIL",
+	"palette": ["#F9E700", "#CFBF00", "#FFA205", "#DD8300", "#F9E700", "#CFBF00"],
 	"players": [{
 		"name": "A. BECKER",
 		"skin": 0,
@@ -117,6 +120,7 @@
 	}]
 }, {
 	"country": "ENGLAND",
+	"palette": ["#EF274C", "#DD001F", "#EF274C", "#DD001F", "#EF274C", "#DD001F"],
 	"players": [{
 		"name": "J. PICKFORD",
 		"skin": 0,
@@ -156,6 +160,7 @@
 	}]
 }, {
 	"country": "GERMANY",
+	"palette": ["#F7EDEC", "#C9C2C2", "#232323", "#000000", "#232323", "#000000"],
 	"players": [{
 		"name": "M. NEUER",
 		"skin": 0,
@@ -195,6 +200,7 @@
 	}]
 }, {
 	"country": "ITALY",
+	"palette": ["#00D826", "#00A004", "#00D826", "#00A004", "#00D826", "#00A004"],
 	"players": [{
 		"name": "G. DONNARUMMA",
 		"skin": 0,
@@ -234,6 +240,7 @@
 	}]
 }, {
 	"country": "SPAIN",
+	"palette": ["#B70017", "#C8E116", "#3F31C8", "#2C009F", "#B70017", "#C8E116"],
 	"players": [{
 		"name": "U. SIMON",
 		"skin": 0,
@@ -273,6 +280,7 @@
 	}]
 }, {
 	"country": "USA",
+	"palette": ["#FB004F", "#83001F", "#FF003E", "#83001F", "#30289E", "#23007E"],
 	"players": [{
 		"name": "S. STERLING",
 		"skin": 0,
@@ -312,6 +320,7 @@
 	}]
 }, {
 	"country": "BOCA",
+	"palette": ["#C8E116", "#23007E", "#2C009F", "#23007E", "#C8E116", "#2C009F"],
 	"players": [{
 		"name": "A. MARCHESIN",
 		"skin": 0,
@@ -351,6 +360,7 @@
 	}],
 }, {
 	"country": "INDEPENDIENTE",
+	"palette": ["#F7EDEC", "#B70017", "#232323", "#221C1A", "#B70017", "#B70017"],
 	"players": [{
 		"name": "R. REY",
 		"skin": 0,
@@ -390,6 +400,7 @@
 	}],
 }, {
 	"country": "RIVER",
+	"palette": ["#000000", "#B70017", "#000000", "#B70017", "#B70017", "#F7EDEC"],
 	"players": [{
 		"name": "F. ARMANI",
 		"skin": 0,
@@ -429,6 +440,7 @@
 	}],
 }, {
 	"country": "RACING",
+	"palette": ["#232323", "#60AFEE", "#60AFEE", "#FFFFFF", "#00B8EB", "#F7EDEC"],
 	"players": [{
 		"name": "G. ARIAS",
 		"skin": 0,
@@ -468,6 +480,7 @@
 	}],
 }, {
 	"country": "SAN LORENZO",
+	"palette": ["#23007E", "#B70017", "#23007E", "#23007E", "#23007E", "#B70017"],
 	"players": [{
 		"name": "M. CLEMENTE",
 		"skin": 1,

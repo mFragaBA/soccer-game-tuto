@@ -1,6 +1,16 @@
 extends Node
 
+const DEFAULT_PALETTE : Array[Color] = [
+	Color("#D95763"),
+	Color("#AC3232"),
+	Color("#5FCCE3"),
+	Color("#639AFE"),
+	Color("#322B28"),
+	Color("#221C1A"),
+]
+
 var countries : Array[String] = ["DEFAULT"]
+
 # Dictionary mapping string to PlayerResource array
 var squads : Dictionary
 
@@ -18,7 +28,16 @@ func _init() -> void:
 		var country_name := team["country"] as String
 		var players := team["players"] as Array
 		
-		squads.get_or_add(country_name, [])
+		# for now a single palette consisting of 6 colors, then we add the possibility of more
+		var team_palette := DEFAULT_PALETTE 
+		
+		if team.has("palette"):
+			team_palette = []
+			for palette_color in team["palette"] as Array:
+				team_palette.append(Color(palette_color) )
+		
+		var parsed_players : Array[PlayerResource] = []
+		
 		countries.append(country_name)
 		
 		for player in players:
@@ -30,14 +49,18 @@ func _init() -> void:
 			
 			var player_resource := PlayerResource.new(player_name, skin, role, speed, power)
 			
-			squads.get(country_name).append(player_resource)
+			parsed_players.append(player_resource)
+			
+		var team_resource := TeamResource.new(parsed_players, team_palette)
+		squads.get_or_add(country_name, team_resource)
 		
 		assert(players.size() == 6)
 	
 	json_file.close()
 	
-func get_squad(country: String) -> Array:
-	return squads.get(country, [])
+func get_squad(country: String) -> TeamResource:
+	assert(squads.has(country), "requested team not in squads Dictionary")
+	return squads.get(country)
 
 func get_countries() -> Array[String]:
 	return countries
