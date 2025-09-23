@@ -3,8 +3,8 @@ extends Node
 const DEFAULT_PALETTE : Array[Color] = [
 	Color("#D95763"),
 	Color("#AC3232"),
-	Color("#5FCCE3"),
-	Color("#639AFE"),
+	Color("#5FCDE4"),
+	Color("#639BFF"),
 	Color("#322B28"),
 	Color("#221C1A"),
 ]
@@ -51,7 +51,7 @@ func _init() -> void:
 			
 			parsed_players.append(player_resource)
 			
-		var team_resource := TeamResource.new(parsed_players, team_palette)
+		var team_resource := TeamResource.new(country_name, parsed_players, team_palette)
 		squads.get_or_add(country_name, team_resource)
 		
 		assert(players.size() == 6)
