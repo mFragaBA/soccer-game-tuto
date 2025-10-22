@@ -10,7 +10,7 @@ func _ready() -> void:
 	team = TeamResource.new()
 	
 	for i in range(color_pickers.size()):
-		color_pickers[i].color = team.palette_colors[i]
+		color_pickers[i].init(team.palette_colors[i])
 	
 	update_sample_sprite()
 

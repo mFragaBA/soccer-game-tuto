@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dqp4606s37llg"]
+[gd_scene load_steps=9 format=3 uid="uid://dqp4606s37llg"]
 
 [ext_resource type="Script" path="res://scenes/Screens/team_builder/team_builder_edit_team_screen.gd" id="1_or2yt"]
 [ext_resource type="Texture2D" uid="uid://dux71cjewsp07" path="res://assets/assets/art/ui/teamselection/team-selection-background.png" id="2_v2wqo"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" path="res://shaders/replace_color.gdshader" id="3_yyy6m"]
 [ext_resource type="Texture2D" uid="uid://bb1wuhjx5aklv" path="res://assets/assets/art/palettes/skin-colors-palette.png" id="4_jhjwa"]
 [ext_resource type="Script" path="res://scenes/Screens/team_builder/color_picker_resizer.gd" id="5_dv7bu"]
+[ext_resource type="PackedScene" uid="uid://cp86j162i83gd" path="res://scenes/UI/color_selector.tscn" id="7_uax01"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_43nvb"]
 resource_local_to_scene = true
@@ -17,12 +18,172 @@ shader_parameter/skin_palette = ExtResource("4_jhjwa")
 [node name="TeamBuilderEditTeamScreen" type="Node"]
 script = ExtResource("1_or2yt")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="Background" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_right = 280.0
+offset_bottom = 180.0
 texture = ExtResource("2_v2wqo")
 
-[node name="SampleSprite" type="Sprite2D" parent="."]
+[node name="SelectorPanelContainers" type="PanelContainer" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 20.0
+offset_top = 100.0
+offset_right = 80.0
+offset_bottom = 160.0
+
+[node name="ColorSelector" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector2" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector3" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector4" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector5" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector6" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -2.0
+offset_right = 104.0
+offset_bottom = 68.0
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Control/HBoxContainer"]
+layout_mode = 2
+
+[node name="TeamColorsContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+custom_minimum_size = Vector2(100, 70)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Color1" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer" node_paths=PackedStringArray("color_rect", "color_selector")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("5_dv7bu")
+color_rect = NodePath("../ColorRect")
+color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector/ColorSelector")
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+layout_mode = 2
+
+[node name="Color2" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer2" node_paths=PackedStringArray("color_rect", "color_selector")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("5_dv7bu")
+color_rect = NodePath("../ColorRect")
+color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector2/ColorSelector")
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+layout_mode = 2
+
+[node name="Color3" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer3" node_paths=PackedStringArray("color_rect", "color_selector")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("5_dv7bu")
+color_rect = NodePath("../ColorRect")
+color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector3/ColorSelector")
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+layout_mode = 2
+
+[node name="Color4" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer4" node_paths=PackedStringArray("color_rect", "color_selector")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("5_dv7bu")
+color_rect = NodePath("../ColorRect")
+color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector4/ColorSelector")
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+layout_mode = 2
+
+[node name="Color5" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer5" node_paths=PackedStringArray("color_rect", "color_selector")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("5_dv7bu")
+color_rect = NodePath("../ColorRect")
+color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector5/ColorSelector")
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+layout_mode = 2
+
+[node name="Color6" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer6" node_paths=PackedStringArray("color_rect", "color_selector")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(20, 8)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+script = ExtResource("5_dv7bu")
+color_rect = NodePath("../ColorRect")
+color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector6/ColorSelector")
+
+[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SampleSprite" type="Sprite2D" parent="Control"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_43nvb")
 position = Vector2(118, 65)
@@ -31,42 +192,9 @@ centered = false
 hframes = 6
 vframes = 13
 
-[node name="TeamColorsContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(100, 100)
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -50.0
-offset_right = 100.0
-offset_bottom = 50.0
-grow_vertical = 2
-
-[node name="Color1" type="ColorPickerButton" parent="TeamColorsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("5_dv7bu")
-
-[node name="Color2" type="ColorPickerButton" parent="TeamColorsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("5_dv7bu")
-
-[node name="Color3" type="ColorPickerButton" parent="TeamColorsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("5_dv7bu")
-
-[node name="Color4" type="ColorPickerButton" parent="TeamColorsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("5_dv7bu")
-
-[node name="Color5" type="ColorPickerButton" parent="TeamColorsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("5_dv7bu")
-
-[node name="Color6" type="ColorPickerButton" parent="TeamColorsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("5_dv7bu")
+[editable path="Control/SelectorPanelContainers/ColorSelector"]
+[editable path="Control/SelectorPanelContainers/ColorSelector2"]
+[editable path="Control/SelectorPanelContainers/ColorSelector3"]
+[editable path="Control/SelectorPanelContainers/ColorSelector4"]
+[editable path="Control/SelectorPanelContainers/ColorSelector5"]
+[editable path="Control/SelectorPanelContainers/ColorSelector6"]

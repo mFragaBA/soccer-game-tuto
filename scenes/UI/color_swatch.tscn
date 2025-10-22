@@ -3,9 +3,10 @@
 [ext_resource type="Script" path="res://scenes/UI/color_swatch.gd" id="1_y3e01"]
 
 [node name="ColorSwatch" type="Button"]
-custom_minimum_size = Vector2(8, 8)
+custom_minimum_size = Vector2(5, 5)
 offset_right = 8.0
 offset_bottom = 8.0
+scale = Vector2(0.5, 0.5)
 flat = true
 script = ExtResource("1_y3e01")
 
