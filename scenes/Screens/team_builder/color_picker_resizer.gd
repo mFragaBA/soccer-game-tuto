@@ -1,7 +1,7 @@
 class_name ColorPickerBtn
 extends Button
 
-@onready var edit_team_screen : TeamBuilderEditTeamScreen = $"../../../../.."
+@onready var edit_team_screen : TeamBuilderEditTeamScreen = $"../../../../../.."
 @onready var selector_panel_containers : Node = %SelectorPanelContainers
 @export var color_rect : ColorRect
 @export var color_selector : ColorSelector

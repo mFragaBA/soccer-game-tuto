@@ -1,12 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://dqp4606s37llg"]
+[gd_scene load_steps=11 format=3 uid="uid://dqp4606s37llg"]
 
 [ext_resource type="Script" path="res://scenes/Screens/team_builder/team_builder_edit_team_screen.gd" id="1_or2yt"]
 [ext_resource type="Texture2D" uid="uid://dux71cjewsp07" path="res://assets/assets/art/ui/teamselection/team-selection-background.png" id="2_v2wqo"]
+[ext_resource type="Texture2D" uid="uid://m018p12631aw" path="res://assets/assets/art/ui/flags/flag-boca.png" id="3_2kdwc"]
 [ext_resource type="Texture2D" uid="uid://d3mss88mrtxwf" path="res://assets/assets/art/characters/soccer-player.png" id="3_76u6f"]
 [ext_resource type="Shader" path="res://shaders/replace_color.gdshader" id="3_yyy6m"]
 [ext_resource type="Texture2D" uid="uid://bb1wuhjx5aklv" path="res://assets/assets/art/palettes/skin-colors-palette.png" id="4_jhjwa"]
 [ext_resource type="Script" path="res://scenes/Screens/team_builder/color_picker_resizer.gd" id="5_dv7bu"]
 [ext_resource type="PackedScene" uid="uid://cp86j162i83gd" path="res://scenes/UI/color_selector.tscn" id="7_uax01"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpkxv"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_43nvb"]
 resource_local_to_scene = true
@@ -18,21 +25,94 @@ shader_parameter/skin_palette = ExtResource("4_jhjwa")
 [node name="TeamBuilderEditTeamScreen" type="Node"]
 script = ExtResource("1_or2yt")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_v2wqo")
+
+[node name="TabContainer" type="TabContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 10
+theme_override_constants/side_margin = 0
+theme_override_font_sizes/font_size = 5
+current_tab = 0
+
+[node name="Team Details" type="Control" parent="TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Team Details"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="TextureRect" parent="Control"]
-layout_mode = 0
-offset_right = 280.0
-offset_bottom = 180.0
-texture = ExtResource("2_v2wqo")
+[node name="Padding" type="Control" parent="TabContainer/Team Details/VBoxContainer"]
+layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+[node name="PanelContainer" type="PanelContainer" parent="TabContainer/Team Details/VBoxContainer"]
+custom_minimum_size = Vector2(102, 66)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_dpkxv")
+
+[node name="TeamFlag" type="TextureRect" parent="TabContainer/Team Details/VBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("3_2kdwc")
+stretch_mode = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Team Details/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Team Details/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Padding" type="Control" parent="TabContainer/Team Details/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TeamName" type="Label" parent="TabContainer/Team Details/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Team name:"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="TabContainer/Team Details/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TeamNameField" type="LineEdit" parent="TabContainer/Team Details/VBoxContainer/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/selection_color = Color(1, 1, 1, 1)
+theme_override_colors/caret_color = Color(1, 1, 1, 1)
+theme_override_colors/font_placeholder_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(1, 1, 1, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 5
+text = "Boca"
+caret_blink = true
+caret_blink_interval = 1.2
+
+[node name="Uniform" type="Control" parent="TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Uniform"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -43,18 +123,18 @@ offset_right = 105.0
 offset_bottom = 35.0
 grow_vertical = 2
 
-[node name="Control" type="Control" parent="Control/HBoxContainer"]
+[node name="Control" type="Control" parent="TabContainer/Uniform/HBoxContainer"]
 layout_mode = 2
 
-[node name="TeamColorsContainer" type="VBoxContainer" parent="Control/HBoxContainer"]
+[node name="TeamColorsContainer" type="VBoxContainer" parent="TabContainer/Uniform/HBoxContainer"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="Color1" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer" node_paths=PackedStringArray("color_rect", "color_selector")]
+[node name="Color1" type="Button" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer" node_paths=PackedStringArray("color_rect", "color_selector")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 8)
 layout_mode = 2
@@ -64,14 +144,14 @@ script = ExtResource("5_dv7bu")
 color_rect = NodePath("../ColorRect")
 color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector/ColorSelector")
 
-[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer"]
 layout_mode = 2
 
-[node name="Color2" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer2" node_paths=PackedStringArray("color_rect", "color_selector")]
+[node name="Color2" type="Button" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer2" node_paths=PackedStringArray("color_rect", "color_selector")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 8)
 layout_mode = 2
@@ -81,14 +161,14 @@ script = ExtResource("5_dv7bu")
 color_rect = NodePath("../ColorRect")
 color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector2/ColorSelector")
 
-[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer2"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer"]
 layout_mode = 2
 
-[node name="Color3" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer3" node_paths=PackedStringArray("color_rect", "color_selector")]
+[node name="Color3" type="Button" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer3" node_paths=PackedStringArray("color_rect", "color_selector")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 8)
 layout_mode = 2
@@ -98,14 +178,14 @@ script = ExtResource("5_dv7bu")
 color_rect = NodePath("../ColorRect")
 color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector3/ColorSelector")
 
-[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer3"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer"]
 layout_mode = 2
 
-[node name="Color4" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer4" node_paths=PackedStringArray("color_rect", "color_selector")]
+[node name="Color4" type="Button" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer4" node_paths=PackedStringArray("color_rect", "color_selector")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 8)
 layout_mode = 2
@@ -115,14 +195,14 @@ script = ExtResource("5_dv7bu")
 color_rect = NodePath("../ColorRect")
 color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector4/ColorSelector")
 
-[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer4"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer"]
 layout_mode = 2
 
-[node name="Color5" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer5" node_paths=PackedStringArray("color_rect", "color_selector")]
+[node name="Color5" type="Button" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer5" node_paths=PackedStringArray("color_rect", "color_selector")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 8)
 layout_mode = 2
@@ -132,14 +212,14 @@ script = ExtResource("5_dv7bu")
 color_rect = NodePath("../ColorRect")
 color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector5/ColorSelector")
 
-[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer5"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer5"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="Control/HBoxContainer/TeamColorsContainer"]
+[node name="HBoxContainer6" type="HBoxContainer" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer"]
 layout_mode = 2
 
-[node name="Color6" type="Button" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer6" node_paths=PackedStringArray("color_rect", "color_selector")]
+[node name="Color6" type="Button" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer6" node_paths=PackedStringArray("color_rect", "color_selector")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(20, 8)
 layout_mode = 2
@@ -149,12 +229,13 @@ script = ExtResource("5_dv7bu")
 color_rect = NodePath("../ColorRect")
 color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector6/ColorSelector")
 
-[node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer6"]
+[node name="ColorRect" type="ColorRect" parent="TabContainer/Uniform/HBoxContainer/TeamColorsContainer/HBoxContainer6"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="SelectorPanelContainers" type="PanelContainer" parent="Control"]
+[node name="SelectorPanelContainers" type="PanelContainer" parent="TabContainer/Uniform"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.88
@@ -167,31 +248,31 @@ offset_bottom = 30.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="ColorSelector" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+[node name="ColorSelector" parent="TabContainer/Uniform/SelectorPanelContainers" instance=ExtResource("7_uax01")]
 visible = false
 layout_mode = 2
 
-[node name="ColorSelector2" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+[node name="ColorSelector2" parent="TabContainer/Uniform/SelectorPanelContainers" instance=ExtResource("7_uax01")]
 visible = false
 layout_mode = 2
 
-[node name="ColorSelector3" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+[node name="ColorSelector3" parent="TabContainer/Uniform/SelectorPanelContainers" instance=ExtResource("7_uax01")]
 visible = false
 layout_mode = 2
 
-[node name="ColorSelector4" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+[node name="ColorSelector4" parent="TabContainer/Uniform/SelectorPanelContainers" instance=ExtResource("7_uax01")]
 visible = false
 layout_mode = 2
 
-[node name="ColorSelector5" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+[node name="ColorSelector5" parent="TabContainer/Uniform/SelectorPanelContainers" instance=ExtResource("7_uax01")]
 visible = false
 layout_mode = 2
 
-[node name="ColorSelector6" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+[node name="ColorSelector6" parent="TabContainer/Uniform/SelectorPanelContainers" instance=ExtResource("7_uax01")]
 visible = false
 layout_mode = 2
 
-[node name="SampleSprite" type="Sprite2D" parent="Control"]
+[node name="SampleSprite" type="Sprite2D" parent="TabContainer/Uniform"]
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_43nvb")
 position = Vector2(118, 65)
@@ -200,9 +281,9 @@ centered = false
 hframes = 6
 vframes = 13
 
-[editable path="Control/SelectorPanelContainers/ColorSelector"]
-[editable path="Control/SelectorPanelContainers/ColorSelector2"]
-[editable path="Control/SelectorPanelContainers/ColorSelector3"]
-[editable path="Control/SelectorPanelContainers/ColorSelector4"]
-[editable path="Control/SelectorPanelContainers/ColorSelector5"]
-[editable path="Control/SelectorPanelContainers/ColorSelector6"]
+[editable path="TabContainer/Uniform/SelectorPanelContainers/ColorSelector"]
+[editable path="TabContainer/Uniform/SelectorPanelContainers/ColorSelector2"]
+[editable path="TabContainer/Uniform/SelectorPanelContainers/ColorSelector3"]
+[editable path="TabContainer/Uniform/SelectorPanelContainers/ColorSelector4"]
+[editable path="TabContainer/Uniform/SelectorPanelContainers/ColorSelector5"]
+[editable path="TabContainer/Uniform/SelectorPanelContainers/ColorSelector6"]

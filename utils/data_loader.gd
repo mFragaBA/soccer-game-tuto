@@ -56,6 +56,12 @@ func _init() -> void:
 		
 		assert(players.size() == 6)
 	
+	# For each team saved as a resource load it
+	for path in get_all_file_paths("user://saved_teams"):
+		var team : TeamResource = ResourceLoader.load(path)
+		countries.append(team.name)
+		squads.get_or_add(team.name, team)
+	
 	json_file.close()
 	
 func get_squad(country: String) -> TeamResource:
@@ -64,3 +70,22 @@ func get_squad(country: String) -> TeamResource:
 
 func get_countries() -> Array[String]:
 	return countries
+
+func get_all_file_paths(path: String) -> Array[String]:  
+		var file_paths: Array[String] = []  
+		var dir = DirAccess.open(path)  
+		
+		if !dir:
+			DirAccess.make_dir_recursive_absolute(path)
+			dir = DirAccess.open(path)
+		
+		dir.list_dir_begin()  
+		var file_name = dir.get_next()  
+		while file_name != "":  
+			var file_path = path + "/" + file_name  
+			if dir.current_is_dir():  
+				file_paths += get_all_file_paths(file_path)  
+			else:  
+				file_paths.append(file_path)  
+			file_name = dir.get_next()  
+		return file_paths

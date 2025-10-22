@@ -5,6 +5,7 @@ extends Resource
 @export var players : Array[PlayerResource]
 @export var palette : ImageTexture
 @export var palette_colors : Array[Color]
+@export var team_flag : ImageTexture
 
 func _init(team_name: String = "New Team", team_players: Array[PlayerResource] = [], team_palette: Array[Color] = DataLoader.DEFAULT_PALETTE) -> void:
 	name = team_name
