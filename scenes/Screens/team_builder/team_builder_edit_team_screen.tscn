@@ -20,9 +20,11 @@ script = ExtResource("1_or2yt")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="Control"]
 layout_mode = 0
@@ -30,47 +32,15 @@ offset_right = 280.0
 offset_bottom = 180.0
 texture = ExtResource("2_v2wqo")
 
-[node name="SelectorPanelContainers" type="PanelContainer" parent="Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = 20.0
-offset_top = 100.0
-offset_right = 80.0
-offset_bottom = 160.0
-
-[node name="ColorSelector" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
-visible = false
-layout_mode = 2
-
-[node name="ColorSelector2" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
-visible = false
-layout_mode = 2
-
-[node name="ColorSelector3" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
-visible = false
-layout_mode = 2
-
-[node name="ColorSelector4" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
-visible = false
-layout_mode = 2
-
-[node name="ColorSelector5" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
-visible = false
-layout_mode = 2
-
-[node name="ColorSelector6" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
-visible = false
-layout_mode = 2
-
 [node name="HBoxContainer" type="HBoxContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -2.0
-offset_right = 104.0
-offset_bottom = 68.0
+offset_left = 1.0
+offset_top = -35.0
+offset_right = 105.0
+offset_bottom = 35.0
 grow_vertical = 2
 
 [node name="Control" type="Control" parent="Control/HBoxContainer"]
@@ -182,6 +152,44 @@ color_selector = NodePath("../../../../SelectorPanelContainers/ColorSelector6/Co
 [node name="ColorRect" type="ColorRect" parent="Control/HBoxContainer/TeamColorsContainer/HBoxContainer6"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="SelectorPanelContainers" type="PanelContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.88
+anchor_top = 0.5
+anchor_right = 0.88
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -30.0
+offset_bottom = 30.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ColorSelector" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector2" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector3" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector4" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector5" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
+
+[node name="ColorSelector6" parent="Control/SelectorPanelContainers" instance=ExtResource("7_uax01")]
+visible = false
+layout_mode = 2
 
 [node name="SampleSprite" type="Sprite2D" parent="Control"]
 unique_name_in_owner = true
